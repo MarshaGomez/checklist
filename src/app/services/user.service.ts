@@ -41,6 +41,18 @@ export class UserService{
             .catch(this.handleError);
     }
 
+    loginUser(email:String, password:String){
+        let body = {
+            email: email,
+            password: password
+        }
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.usersApiUrl+"login", body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     private extractData(res: Response){
         let body = res.json();
         return body || {};
