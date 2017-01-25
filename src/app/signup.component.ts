@@ -14,7 +14,7 @@ import { UserService } from './services/user.service';
 export class SignupComponent {
   title = 'Sign up';
   user: User = {
-    id: '1',
+    //id: '0',
     email: 'email',
     password: 'password',
     firstName: 'firstName',
@@ -26,19 +26,22 @@ export class SignupComponent {
 
   onSignup(){
 
-    if (!this.user || !this.user.id) { return; }
+    if (!this.user) { return; }
 
     this.userService.addUser(this.user)
             .subscribe(
                 user  => { 
-                    //TODO: 
+                    //Redirect to main page
+                    console.log('User: ');
+                    console.log(user);
+                    let link = ['/checklist'];
+                    this.router.navigate(link); 
                  },
-                error =>  this.errorMessage = <any>error
+                error => { 
+                  console.log(error);
+                  this.errorMessage = <any>error
+                  }
                 );
-
-    //Redirect to edit key page
-    let link = ['/checklist'];
-    this.router.navigate(link);
     
   }
 }

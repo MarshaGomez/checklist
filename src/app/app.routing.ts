@@ -9,7 +9,7 @@ import { ChecklistComponent } from './checklist.component';
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: '/signup',
+        redirectTo: '/login',
         pathMatch: 'full'
     },
     {

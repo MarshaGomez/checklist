@@ -26,7 +26,7 @@ export class UserService{
     addUser(user: User): Observable<User>{
         let body = { 
             //token: 'TO-DO',
-            id: user.id,
+            // id: user.id,
             email: user.email,
             password: user.password,
             firstName: user.firstName,
@@ -36,7 +36,7 @@ export class UserService{
         let headers = new Headers({'Content-Type': 'application/json', 'token': '1'});
         let options = new RequestOptions({headers: headers});
 
-        return this.http.post(this.usersApiUrl + 'save', body, options)
+        return this.http.post(this.usersApiUrl, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -46,19 +46,25 @@ export class UserService{
             email: email,
             password: password
         }
-        let headers = new Headers({'Content-Type': 'application/json'});
+        let headers = new Headers({'Content-Type': 'application/json', 'token': '1'});
         let options = new RequestOptions({headers: headers});
-        return this.http.post(this.usersApiUrl+"login", body, options)
-            .map(this.extractData)
+        return this.http.post(this.usersApiUrl + 'login', body, options)
+            .map(this.returnToken)
             .catch(this.handleError);
     }
 
     private extractData(res: Response){
+        console.log('Response: ' + res);
         let body = res.json();
         return body || {};
     }
+
+    private returnToken(res: Response){
+        return res;
+    }
     
     private handleError(error: any) {
+        console.log('ERROR!');
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
