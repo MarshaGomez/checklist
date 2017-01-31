@@ -6,9 +6,9 @@ import { HttpModule } from '@angular/http';
 import { routing } from './app.routing';
 
 import { AppComponent } from './app.component';
-import { SignupComponent } from './signup.component';
-import { LoginComponent } from './login.component';
-import { ChecklistComponent } from './checklist.component';
+import { SignupComponent } from './components/signup.component';
+import { LoginComponent } from './components/login.component';
+import { ChecklistComponent } from './components/checklist.component';
 import { UserService } from './services/user.service';
 
 @NgModule({

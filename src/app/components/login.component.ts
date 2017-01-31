@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 
 import {CookieService} from 'angular2-cookie/core';
 
-import { UserService } from './services/user.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'login',
-  templateUrl: './login.component.html',
+  templateUrl: '../templates/login.component.html',
   //styleUrls: ['./login.component.css']
   providers: [ CookieService ]
 })
@@ -41,6 +41,7 @@ export class LoginComponent {
             console.log(res._body);
             let token = res._body;
             this.setCookie("checklist_token", token);
+            this.setCookie("checklist_email", this.userEmail);
 
             let token2 = this.getCookie("checklist_token");
             console.log('Token2: ' + token2);

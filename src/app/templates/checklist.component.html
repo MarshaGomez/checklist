@@ -1,8 +1,19 @@
-<div class="container">
-    <h2>{{title}}</h2>
-</div>
 
-<form id="todo-list">
+<section class="main" *ngIf="tempChecklist.length > 0">
+  <h2>{{tempChecklist[0].title}}</h2>
+  <ul class="todo-list">
+    <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
+    <li *ngFor="let task of tempChecklist[0].tasks">
+      <div class="view">
+        <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
+        <label>{{task.name}}</label>
+        <!--<button class="destroy" (click)="removeTodo(todo)"></button>-->
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!--<form id="todo-list">
   <span class="todo-wrap">
     <input type="checkbox" id="1" checked/>
     <label for="1" class="todo">
@@ -46,4 +57,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
   </span>
-</form>
+
+  <br/>
+  <button type="button" (click)="logout()">Logout</button> 
+</form>-->

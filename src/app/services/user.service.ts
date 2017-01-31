@@ -23,7 +23,7 @@ export class UserService{
     //     return this.http.get(this.usersApiUrl + id, options)
     // }
 
-    addUser(user: User): Observable<User>{
+    addUser(user: User){
         let body = { 
             //token: 'TO-DO',
             // id: user.id,
@@ -53,9 +53,18 @@ export class UserService{
             .catch(this.handleError);
     }
 
-    private extractData(res: Response){
-        console.log('Response: ' + res);
-        let body = res.json();
+    logoutUser(id:String, token:String){
+        let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://localhost:8084/ChecklistsAPI/api/logout/' + id, options)
+            .map(this.returnToken)
+            .catch(this.handleError);
+    }
+
+    private extractData(res: any){
+        console.log('Server Response: ');
+        console.log(res);
+        let body = JSON.parse(res._body);
         return body || {};
     }
 
