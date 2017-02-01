@@ -217,3 +217,4 @@ button.btn:focus { outline: 0; opacity: 0.6; background: rgba(120, 180, 112, 0.9
 
 button.btn:active:focus, button.btn.active:focus { outline: 0; opacity: 0.6; background: rgba(120, 180, 112, 0.95); color: #fff; }
 
+
