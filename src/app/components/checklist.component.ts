@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CookieService} from 'angular2-cookie/core';
 
 import { UserService } from '../services/user.service';
+import { ChecklistService } from '../services/checklist.service';
 
 @Component({
   selector: 'checklist',
@@ -28,22 +29,33 @@ export class ChecklistComponent {
       } 
   ];
 
+  checklists = [];
+
   constructor(private cookieService:CookieService,
     private router: Router,
-    private userService: UserService){
-    
-    //TESTING
-    let token = this.getCookie("checklist_token");
-    console.log('Token3: ' + token);
-  }
+    private userService: UserService,
+    private checklistService: ChecklistService){  }
 
   ngOnInit(){
       let token = this.getCookie("checklist_token");
-      console.log('Token3: ' + token);
 
       if(!token){
         this.router.navigate(['/login']);
       }
+
+      console.log('Token3: ' + token);
+
+      this.checklistService.getByOwner(token)
+        .subscribe(
+          res => {
+            console.log('Res: ');
+            console.log(res);
+            this.checklists = <any>res;
+          },
+          error => {
+
+          }
+        );
   }
 
   getCookie(key: string){

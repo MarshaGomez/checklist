@@ -10,6 +10,7 @@ import { SignupComponent } from './components/signup.component';
 import { LoginComponent } from './components/login.component';
 import { ChecklistComponent } from './components/checklist.component';
 import { UserService } from './services/user.service';
+import { ChecklistService } from './services/checklist.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { UserService } from './services/user.service';
     routing
   ],
   providers: [
-    UserService
+    UserService,
+    ChecklistService
   ],
   bootstrap: [AppComponent]
 })

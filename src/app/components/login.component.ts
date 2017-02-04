@@ -13,8 +13,8 @@ import { UserService } from '../services/user.service';
 })
 export class LoginComponent {
   title = 'Login';
-  userEmail: string = 'testuser';
-  userPassword: string = 'pass';
+  userEmail: string;
+  userPassword: string;
   errorMessage: string;
   tokenId: string;
 
@@ -31,9 +31,9 @@ export class LoginComponent {
   }
 
   onLogin(){
-    if(!this.userEmail || !this.userPassword){
-      return;
-    }
+    // if(!this.userEmail || !this.userPassword){
+    //   return;
+    // }
     this.userService.loginUser(this.userEmail, this.userPassword)
         .subscribe(
           res => {
@@ -55,9 +55,5 @@ export class LoginComponent {
             this.errorMessage = <any>error;
           }
         );
-
-
-    let link = ['/checklist'];
-    this.router.navigate(link);
   }
 }

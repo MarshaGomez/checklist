@@ -1,6 +1,7 @@
 'use strict'
 
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { CookieService } from 'angular2-cookie/core';
@@ -16,13 +17,16 @@ import { UserService } from '../services/user.service';
 })
 export class SignupComponent {
   title = 'Sign up';
-  user: User = {
-    //id: '0',
-    email: 'email',
-    password: 'password',
-    firstName: 'firstName',
-    lastName: 'lastName'
-  };
+  // user: User = {
+  //   //id: '0',
+  //   email: 'email',
+  //   password: 'password',
+  //   firstName: 'firstName',
+  //   lastName: 'lastName'
+  // };
+
+  user: User = new User();
+  //@ViewChild('signupForm') signupForm: NgForm;
   errorMessage: string;
 
   constructor(private router: Router, 

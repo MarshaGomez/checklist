@@ -32,11 +32,13 @@ export class UserService{
             firstName: user.firstName,
             lastName: user.lastName
         };
+        console.log('User:');
+        console.log(user);
         
-        let headers = new Headers({'Content-Type': 'application/json', 'token': '1'});
+        let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
 
-        return this.http.post(this.usersApiUrl, body, options)
+        return this.http.post(this.usersApiUrl + 'save', body, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -46,7 +48,7 @@ export class UserService{
             email: email,
             password: password
         }
-        let headers = new Headers({'Content-Type': 'application/json', 'token': '1'});
+        let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
         return this.http.post(this.usersApiUrl + 'login', body, options)
             .map(this.returnToken)

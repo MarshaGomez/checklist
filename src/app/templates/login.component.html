@@ -22,11 +22,11 @@
                             <form #loginForm="ngForm" (ngSubmit)="onLogin()" role="form" class="login-form">
                                 <div class="form-group">
                                     <label class="sr-only" for="form-username">Username</label>
-                                    <input type="text" name="form-username" placeholder="Email or Username" class="form-username form-control" id="email">
+                                    <input type="text" [(ngModel)]="userEmail" name="form-username" placeholder="Email or Username" class="form-username form-control" id="email">
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="form-password">Password</label>
-                                    <input type="password" name="form-password" placeholder="Password" class="form-password form-control" id="password">
+                                    <input type="password" [(ngModel)]="userPassword" name="form-password" placeholder="Password" class="form-password form-control" id="password">
                                 </div>
                                 <button type="submit" class="btn">Login</button>
                                 <!--<div class="description">
