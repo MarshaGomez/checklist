@@ -7,12 +7,15 @@
       <div class="view">
         <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
         <label style="color: #000000">{{checklist.name}}</label>
-        <!--<button class="destroy" (click)="removeTodo(todo)"></button>-->
+        <button class="" (click)="deleteChecklist(checklist)">Delete</button>
       </div>
     </li>
   </ul>
 </section>
 <button type="button" (click)="logout()">Logout</button>
+
+<br/><br/>
+<input type="text" id="input-test1" value="Directive test" myLineThrough/>
 
 
 

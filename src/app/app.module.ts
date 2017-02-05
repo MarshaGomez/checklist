@@ -11,13 +11,15 @@ import { LoginComponent } from './components/login.component';
 import { ChecklistComponent } from './components/checklist.component';
 import { UserService } from './services/user.service';
 import { ChecklistService } from './services/checklist.service';
+import { LineThroughDirective } from './directives/line.through.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
     LoginComponent,
-    ChecklistComponent
+    ChecklistComponent,
+    LineThroughDirective
   ],
   imports: [
     BrowserModule,

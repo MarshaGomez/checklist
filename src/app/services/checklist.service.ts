@@ -5,6 +5,8 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import { Checklist } from '../entities/checklist';
+
 @Injectable()
 export class ChecklistService {
 
@@ -16,6 +18,19 @@ export class ChecklistService {
     let options = new RequestOptions({headers: headers});
     return this.http.get('http://localhost:8084/ChecklistsAPI/api/checklists/users', options)
         .map(this.extractData)
+        .catch(this.handleError);
+  }
+
+  delete(checklistId: string, token: string){
+    let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+    let options = new RequestOptions({headers: headers});
+    return this.http.delete('http://localhost:8084/ChecklistsAPI/api/checklists/' + checklistId, options)
+        .map(
+            res => {
+                console.log('Server Response: ');
+                console.log(res);
+                return res || {};
+            })
         .catch(this.handleError);
   }
 

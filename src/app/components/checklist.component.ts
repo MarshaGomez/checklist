@@ -5,6 +5,7 @@ import { CookieService} from 'angular2-cookie/core';
 
 import { UserService } from '../services/user.service';
 import { ChecklistService } from '../services/checklist.service';
+import { Checklist } from '../entities/checklist';
 
 @Component({
   selector: 'checklist',
@@ -15,6 +16,9 @@ import { ChecklistService } from '../services/checklist.service';
 export class ChecklistComponent {
   title = 'Checklist';
   errorMessage: string;
+
+  //TODO: delete, directive test
+  line_through: boolean = false;
 
   tempChecklist = 
   [
@@ -81,5 +85,49 @@ export class ChecklistComponent {
     this.cookieService.remove("checklist_token");
 
     this.router.navigate(['/login']);
+  }
+
+  deleteChecklist(checklist: Checklist){
+    if(!checklist || !checklist.id){
+      return;
+    }
+
+    console.log('Delete 1');
+
+    let token = this.getCookie("checklist_token");
+
+    if(!token){
+      this.router.navigate(['/login']);
+    }
+
+    this.checklistService.delete(checklist.id, token)
+      .subscribe(
+        res => {
+          console.log('Removed');
+          console.log(res);        
+
+          for(var i = 0; i < this.checklists.length; i++) {
+              let checklistToDelete: Checklist = this.checklists[i];
+
+              if(checklistToDelete.id == checklist.id){
+                this.checklists.splice(i, 1);
+                break;
+              }
+          }
+
+          // this.checklistService.getByOwner(token)
+          //   .subscribe(
+          //     res2 => {
+          //       this.checklists = <any>res2;
+          //     },
+          //     error => {
+
+          //     }
+          //   );
+        },
+        error => {
+          console.log('Delete error');
+        }
+      );
   }
 }

@@ -1,6 +1,6 @@
 import { Task } from './task';
 
-export class Todo {
+export class Checklist {
     id: string;
     title: string = '';
     tasks: Array<Task>;
