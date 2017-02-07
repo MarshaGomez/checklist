@@ -1,24 +1,39 @@
 
-<section class="main" *ngIf="checklists.length > 0">
-  <!--<h2>{{tempChecklist[0].title}}</h2>-->
-  <ul class="todo-list">
-    <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
-    <li *ngFor="let checklist of checklists">
-      <div class="view">
-        <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
-        <label style="color: #000000">{{checklist.name}}</label>
-        <button class="" (click)="deleteChecklist(checklist)">Delete</button>
+<section class="main">
+  <div class="colmask">
+    <div class="colleft">
+
+      <div class="col1">-->
+        
+        <div *ngIf="checklists.length > 0">
+          <!--<h2>{{tempChecklist[0].title}}</h2>-->
+          <ul class="todo-list">
+            <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
+            <li *ngFor="let checklist of checklists">
+              <div class="view">
+                <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
+                <label style="color: #000000">{{checklist.name}}</label>
+                <button class="" (click)="deleteChecklist(checklist)">Delete</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <button type="button" (click)="logout()">Logout</button>
+
+        <br/><br/>
+        <input type="text" id="input-test1" value="Directive test" myLineThrough/>
+        
       </div>
-    </li>
-  </ul>
+
+      <div class="col2">
+
+        <label>TEST</label>
+
+      </div>-->
+
+    </div>
+  </div>
 </section>
-<button type="button" (click)="logout()">Logout</button>
-
-<br/><br/>
-<input type="text" id="input-test1" value="Directive test" myLineThrough/>
-
-
-
 
 <!--<section class="main" *ngIf="tempChecklist.length > 0">
   <h2>{{tempChecklist[0].title}}</h2>

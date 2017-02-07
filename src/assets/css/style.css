@@ -218,3 +218,35 @@ button.btn:focus { outline: 0; opacity: 0.6; background: rgba(120, 180, 112, 0.9
 button.btn:active:focus, button.btn.active:focus { outline: 0; opacity: 0.6; background: rgba(120, 180, 112, 0.95); color: #fff; }
 
 
+
+
+/*Layout with left menu*/
+.colmask {
+	position:relative;	/* This fixes the IE7 overflow hidden bug */
+	clear:both;
+	float:left;
+	width:100%;			/* width of whole page */
+	overflow:hidden;		/* This chops off any overhanging divs */
+}
+/* common column settings */
+.colright,
+.colmid,
+.colleft {
+	float:left;
+	width:100%;
+	position:relative;
+}
+.col1,
+.col2,
+.col3 {
+	float:left;
+	position:relative;
+	padding:0 0 1em 0;
+	overflow:hidden;
+}
+/* 2 Column (left menu) settings */
+.leftmenu {
+	background:#fff;		/* right column background colour */
+}
+/*Layout with left menu*/
+
