@@ -3,7 +3,7 @@
   <div class="colmask">
     <div class="colleft">
 
-      <div class="col1">-->
+      <div class="col1">
         
         <div *ngIf="checklists.length > 0">
           <!--<h2>{{tempChecklist[0].title}}</h2>-->
@@ -13,7 +13,7 @@
               <div class="view">
                 <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
                 <label style="color: #000000">{{checklist.name}}</label>
-                <button class="" (click)="deleteChecklist(checklist)">Delete</button>
+                <img src="../../assets/img/ico/delete.png" alt="Mountain View" style="width:10px;height:10px;" (click)="deleteChecklist(checklist)" />
               </div>
             </li>
           </ul>
@@ -27,9 +27,21 @@
 
       <div class="col2">
 
-        <label>TEST</label>
+        <div *ngIf="tasks.length > 0">
+          <!--<h2>{{tempChecklist[0].title}}</h2>-->
+          <ul class="todo-list">
+            <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
+            <li *ngFor="let task of tasks">
+              <div class="view">
+                <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
+                <input type="checkbox" [(ngModel)]="task.completed" />
+                <label style="color: #000000">{{task.name}}</label>
+              </div>
+            </li>
+          </ul>
+        </div>
 
-      </div>-->
+      </div>
 
     </div>
   </div>

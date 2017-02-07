@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login.component';
 import { ChecklistComponent } from './components/checklist.component';
 import { UserService } from './services/user.service';
 import { ChecklistService } from './services/checklist.service';
+import { TaskService } from './services/task.service';
 import { LineThroughDirective } from './directives/line.through.directive';
 
 @NgModule({
@@ -29,7 +30,8 @@ import { LineThroughDirective } from './directives/line.through.directive';
   ],
   providers: [
     UserService,
-    ChecklistService
+    ChecklistService,
+    TaskService
   ],
   bootstrap: [AppComponent]
 })

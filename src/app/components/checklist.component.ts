@@ -5,6 +5,7 @@ import { CookieService} from 'angular2-cookie/core';
 
 import { UserService } from '../services/user.service';
 import { ChecklistService } from '../services/checklist.service';
+import { TaskService } from '../services/task.service';
 import { Checklist } from '../entities/checklist';
 
 @Component({
@@ -20,25 +21,16 @@ export class ChecklistComponent {
   //TODO: delete, directive test
   line_through: boolean = false;
 
-  tempChecklist = 
-  [
-      {
-          "id": 1,
-          "title": "Servicios por pagar",
-          "tasks": [
-              { "id": "1", "name": "Electrico" },
-              { "id": "2", "name": "Agua" },
-              { "id": "3", "name": "Otros" }
-          ]
-      } 
-  ];
-
   checklists = [];
+  tasks = [];
+
+  selectedChecklistId: string = '11e97b55-325b-4ddd-b8d5-93cbaf9662c2';
 
   constructor(private cookieService:CookieService,
     private router: Router,
     private userService: UserService,
-    private checklistService: ChecklistService){  }
+    private checklistService: ChecklistService,
+    private taskService: TaskService){  }
 
   ngOnInit(){
       let token = this.getCookie("checklist_token");
@@ -52,9 +44,21 @@ export class ChecklistComponent {
       this.checklistService.getByOwner(token)
         .subscribe(
           res => {
-            console.log('Res: ');
+            console.log('Checklists Res: ');
             console.log(res);
             this.checklists = <any>res;
+          },
+          error => {
+
+          }
+        );
+
+      this.taskService.getByChecklist(this.selectedChecklistId, token)
+        .subscribe(
+          res => {
+            console.log('Tasks Res: ');
+            console.log(res);
+            this.tasks = <any>res;
           },
           error => {
 
