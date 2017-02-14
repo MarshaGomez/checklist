@@ -13,6 +13,7 @@ import { UserService } from './services/user.service';
 import { ChecklistService } from './services/checklist.service';
 import { TaskService } from './services/task.service';
 import { LineThroughDirective } from './directives/line.through.directive';
+import { Highlight } from './directives/highlight.directive';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LineThroughDirective } from './directives/line.through.directive';
     SignupComponent,
     LoginComponent,
     ChecklistComponent,
-    LineThroughDirective
+    LineThroughDirective,
+    Highlight
   ],
   imports: [
     BrowserModule,

@@ -33,16 +33,16 @@
             <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
             <li *ngFor="let task of tasks">
               <div class="view">
-                <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
-                <input type="checkbox" [(ngModel)]="task.completed" />
-                <label style="color: #000000">{{task.name}}</label>
+                
+                <label [highlight]=task.completed>
+                  <input class="toggle" type="checkbox"  [checked]="task.completed" [(ngModel)]="task.completed"/>
+                    {{task.name}}
+                </label>
               </div>
             </li>
           </ul>
         </div>
-
       </div>
-
     </div>
   </div>
 </section>
