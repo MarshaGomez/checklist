@@ -9,20 +9,20 @@
           <!--<h2>{{tempChecklist[0].title}}</h2>-->
           <ul class="todo-list">
             <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
-            <li *ngFor="let checklist of checklists">
+            <li *ngFor="let checklist of checklists" style="list-style-type: none; text-align: left;">
               <div class="view">
                 <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
-                <label style="color: #000000">{{checklist.name}}</label>
+                <label style="color: #000000" (click)="selectChecklist(checklist)">{{checklist.name}}</label>
                 <img src="../../assets/img/ico/delete.png" alt="Mountain View" style="width:10px;height:10px;" (click)="deleteChecklist(checklist)" />
               </div>
             </li>
           </ul>
         </div>
-        <button type="button" (click)="logout()">Logout</button>
-
+        <input type="text" (keyup.enter)="addChecklist()" [(ngModel)]="newChecklistName" placeholder="New Checklist">
         <br/><br/>
-        <input type="text" id="input-test1" value="Directive test" myLineThrough/>
-        
+        <button type="button" (click)="logout()">Logout</button>
+        <br/><br/>
+        <!--<input type="text" id="input-test1" value="Directive test" myLineThrough/>-->
       </div>
 
       <div class="col2">
@@ -33,15 +33,27 @@
             <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
             <li *ngFor="let task of tasks">
               <div class="view">
-                
-                <label [highlight]=task.completed>
-                  <input class="toggle" type="checkbox"  [checked]="task.completed" [(ngModel)]="task.completed"/>
+                <!--[highlight]=task.completed-->
+                <input class="toggle" type="checkbox"  [checked]="task.completed" [(ngModel)]="task.completed" (click)= "completeTask(task)"/>
+                <label (click)="setTaskData(task)" >
                     {{task.name}}
                 </label>
+                <img src="../../assets/img/ico/delete.png" alt="Mountain View" style="width:10px;height:10px;" (click)="deleteTask(task)" />
               </div>
             </li>
           </ul>
         </div>
+        <br/><br/>
+        <input type="text" [(ngModel)]="taskToAdd.name" placeholder="New task name">
+        <input type="text" [(ngModel)]="taskToAdd.description" placeholder="New task description">
+        <button (click)="newTask()">Save</button>
+        <button (click)="addTask()">test</button>
+
+        <br/><br/>
+        <input type="text" [(ngModel)]="taskToUpdate.name" placeholder="Update task name">
+        <input type="text" [(ngModel)]="taskToUpdate.description" placeholder="Update task description">
+        <button (click)="updateTask()">Save</button>
+
       </div>
     </div>
   </div>

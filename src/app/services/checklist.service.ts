@@ -4,6 +4,8 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { Checklist } from '../entities/checklist';
+
 
 @Injectable()
 export class ChecklistService {
@@ -49,4 +51,16 @@ export class ChecklistService {
         return Observable.throw(errMsg);
   }
 
+  add(checklist: Checklist, token:String){
+    let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+    let options = new RequestOptions({headers: headers});
+
+    let body = {
+        name: checklist.title
+    };
+
+    return this.http.post('http://localhost:8084/ChecklistsAPI/api/checklists/', body, options)
+        .map(this.extractData)
+        .catch(this.handleError);  
+  }
 }
