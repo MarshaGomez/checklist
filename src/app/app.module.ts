@@ -14,8 +14,6 @@ import { ChecklistService } from './services/checklist.service';
 import { TaskService } from './services/task.service';
 import { LineThroughDirective } from './directives/line.through.directive';
 import { Highlight } from './directives/highlight.directive';
-import { ModalModule } from 'angular2-modal';
-import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
 @NgModule({
   declarations: [
@@ -30,9 +28,7 @@ import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing,
-    ModalModule.forRoot(),
-    BootstrapModalModule
+    routing
   ],
   providers: [
     UserService,

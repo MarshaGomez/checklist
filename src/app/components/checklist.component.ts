@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Overlay } from 'angular2-modal';
-import { Modal } from 'angular2-modal/plugins/bootstrap';
 import { CookieService} from 'angular2-cookie/core';
 
 import { UserService } from '../services/user.service';
@@ -36,11 +34,8 @@ export class ChecklistComponent {
     private router: Router,
     private userService: UserService,
     private checklistService: ChecklistService,
-    private taskService: TaskService,
-    overlay: Overlay, 
-    vcRef: ViewContainerRef, 
-    public modal: Modal){
-      overlay.defaultViewContainer = vcRef;
+    private taskService: TaskService){
+      
     }
   
   ngOnInit(){
