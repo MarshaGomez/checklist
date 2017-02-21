@@ -63,4 +63,18 @@ export class ChecklistService {
         .map(this.extractData)
         .catch(this.handleError);  
   }
+
+  updateChecklist(checklist : Checklist, token : string){
+    let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+    let options = new RequestOptions({headers: headers});
+
+    let body = {
+        title: checklist.title
+    };
+
+    return this.http.put('http://localhost:8084/ChecklistsAPI/api/checklists/' + checklist.id , body, options)
+        .map(this.extractData)
+        .catch(this.handleError);  
+  }
+
 }

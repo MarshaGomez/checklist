@@ -35,7 +35,7 @@
               <div class="view">
                 <!--[highlight]=task.completed-->
                 <input class="toggle" type="checkbox"  [checked]="task.completed" [(ngModel)]="task.completed" (click)= "completeTask(task)"/>
-                <label (click)="setTaskData(task)" >
+                <label (click)="setTaskData(task)" style="color: #000000">
                     {{task.name}}
                 </label>
                 <img src="../../assets/img/ico/delete.png" alt="Mountain View" style="width:10px;height:10px;" (click)="deleteTask(task)" />

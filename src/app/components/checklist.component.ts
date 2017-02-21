@@ -297,6 +297,12 @@ export class ChecklistComponent {
     .subscribe(
             res => {
               console.log('Task updated');
+              for(var i = 0; i < this.tasks.length; i++) {
+                if(this.taskToUpdate.id == this.tasks[i].id){
+                  this.tasks[i] = Object.assign(new Task, this.taskToUpdate);
+                  break;
+                }
+              }
               this.taskToUpdate.id = "";
               this.taskToUpdate.name = "";
               this.taskToUpdate.description = "";
