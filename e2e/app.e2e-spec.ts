@@ -1,14 +1,15 @@
-import { ChecklistWebPage } from './app.po';
+import { browser, element, by } from 'protractor';
 
-describe('checklist-web App', function() {
-  let page: ChecklistWebPage;
+describe('QuickStart E2E Tests', function () {
 
-  beforeEach(() => {
-    page = new ChecklistWebPage();
+  let expectedMsg = 'Hello Angular';
+
+  beforeEach(function () {
+    browser.get('');
   });
 
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+  it('should display: ' + expectedMsg, function () {
+    expect(element(by.css('h1')).getText()).toEqual(expectedMsg);
   });
+
 });
