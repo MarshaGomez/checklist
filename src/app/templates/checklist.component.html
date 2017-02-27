@@ -1,0 +1,125 @@
+
+<section class="main">
+  <div class="colmask">
+    <div class="colleft">
+
+      <div class="col1">
+        
+        <div *ngIf="checklists.length > 0">
+          <!--<h2>{{tempChecklist[0].title}}</h2>-->
+          <ul class="todo-list">
+            <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
+            <li *ngFor="let checklist of checklists" style="list-style-type: none; text-align: left;">
+              <div class="view">
+                <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
+                <label style="color: #000000" (click)="selectChecklist(checklist)">{{checklist.name}}</label>
+                <img src="../../assets/img/ico/delete.png" alt="Mountain View" style="width:10px;height:10px;" (click)="deleteChecklist(checklist)" />
+              </div>
+            </li>
+          </ul>
+        </div>
+        <input type="text" (keyup.enter)="addChecklist()" [(ngModel)]="newChecklistName" placeholder="New Checklist">
+        <br/><br/>
+        <button type="button" (click)="logout()">Logout</button>
+        <br/><br/>
+        <!--<input type="text" id="input-test1" value="Directive test" myLineThrough/>-->
+      </div>
+
+      <div class="col2">
+
+        <div *ngIf="tasks.length > 0">
+          <!--<h2>{{tempChecklist[0].title}}</h2>-->
+          <ul class="todo-list">
+            <!--<li *ngFor="let todo of tempChecklist" [class.completed]="todo.complete">-->
+            <li *ngFor="let task of tasks">
+              <div class="view">
+                <!--[highlight]=task.completed-->
+                <input class="toggle" type="checkbox"  [checked]="task.completed" [(ngModel)]="task.completed" (click)= "completeTask(task)"/>
+                <label (click)="setTaskData(task)" style="color: #000000">
+                    {{task.name}}
+                </label>
+                <img src="../../assets/img/ico/delete.png" alt="Mountain View" style="width:10px;height:10px;" (click)="deleteTask(task)" />
+              </div>
+            </li>
+          </ul>
+        </div>
+        <br/><br/>
+        <input type="text" [(ngModel)]="taskToAdd.name" placeholder="New task name">
+        <input type="text" [(ngModel)]="taskToAdd.description" placeholder="New task description">
+        <button (click)="newTask()">Save</button>
+        <button (click)="addTask()">test</button>
+
+        <br/><br/>
+        <input type="text" [(ngModel)]="taskToUpdate.name" placeholder="Update task name">
+        <input type="text" [(ngModel)]="taskToUpdate.description" placeholder="Update task description">
+        <button (click)="updateTask()">Save</button>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--<section class="main" *ngIf="tempChecklist.length > 0">
+  <h2>{{tempChecklist[0].title}}</h2>
+  <ul class="todo-list">
+    
+    <li *ngFor="let task of tempChecklist[0].tasks">
+      <div class="view">
+        
+        <label>{{task.name}}</label>
+        
+      </div>
+    </li>
+  </ul>
+</section>-->
+
+
+
+<!--<form id="todo-list">
+  <span class="todo-wrap">
+    <input type="checkbox" id="1" checked/>
+    <label for="1" class="todo">
+      <i class="fa fa-check"></i>
+      Have a good idea
+    </label>
+    <span class="delete-item" title="remove">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </span>
+  <br/>
+  <span class="todo-wrap">
+    <input type="checkbox" id="2"/>
+    <label for="2" class="todo">
+      <i class="fa fa-check"></i>
+      Plan idea execution
+    </label>
+    <span class="delete-item" title="remove">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </span>
+  <br/>
+  <span class="todo-wrap">
+    <input type="checkbox" id="3"/>
+    <label for="3" class="todo">
+      <i class="fa fa-check"></i>
+      Execute idea
+    </label>
+    <span class="delete-item" title="remove">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </span>
+  <br/>
+	<span class="todo-wrap">
+    <input type="checkbox" id="4"/>
+    <label for="4" class="todo">
+      <i class="fa fa-check"></i>
+      Celebrate with a cold one
+    </label>
+    <span class="delete-item" title="remove">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </span>
+
+  <br/>
+  <button type="button" (click)="logout()">Logout</button> 
+</form>-->

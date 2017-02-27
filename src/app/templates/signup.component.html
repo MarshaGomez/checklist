@@ -1,0 +1,48 @@
+<!-- Top content -->
+    <div class="top-content">
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 text">
+                        <h1><strong>CheckList</strong> | Sign up </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3>Sign up to our site</h3>
+                                <p>Enter your details to sign up:</p>
+                            </div>
+                            <div class="form-top-right">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <!--<form #signupForm="ngForm" (ngSubmit)="onSignup()" role="form" class="login-form">-->
+                            <form #signupForm="ngForm" (ngSubmit)="onSignup()" role="form" class="login-form">
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-firstname">First name</label>
+                                    <input type="text" [(ngModel)]="user.firstName" id="name" name="form-firstname" placeholder="First name" class="form-username form-control" id="email">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-lastname">Lastname</label>
+                                    <input type="text" [(ngModel)]="user.lastName" id="lastname" name="form-lastname" placeholder="Lastname" class="form-username form-control" id="lastname">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-username">Username</label>
+                                    <input type="text" [(ngModel)]="user.email" id="email" name="form-username" placeholder="Email" class="form-username form-control" id="email">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-password">Password</label>
+                                    <input type="password" [(ngModel)]="user.password" id="password" name="form-password" placeholder="Password" class="form-password form-control" id="password">
+                                </div>
+                                <button type="submit" class="btn">Sign up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="error" *ngIf="errorMessage">{{errorMessage}}</div>
+    </div>
