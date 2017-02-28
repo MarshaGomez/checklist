@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Checklist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,800,300&subset=latin"
+    rel="stylesheet" type="text/css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link href="../../dist/demo/demo.css" rel="stylesheet">
+    <link href="../../dist/css/pixeladmin.css" rel="stylesheet">
+    <link href="../../dist/css/widgets.css" rel="stylesheet">
+    <link href="../../dist/css/bootstrap.css" rel="stylesheet">
+    <link href="../../dist/css/themes/frost.css" rel="stylesheet">
+
+    <!-- holder.js -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
+
+    <!-- require.js -->
+    <script src="../../dist/js/requirejs.js"></script>
+    <script>
+      requirejs.config({
+        baseUrl: '../../dist/js/amd',
+
+        // Demo script path
+        paths: { demo: '../../demo/demo' }
+      });
+    </script>
+
+    <!-- Require demo script -->
+    <script>
+      require(['demo']);
+    </script>
+
+    <script>
+      require(['jquery', 'px/extensions/perfect-scrollbar.jquery'], function ($) {
+        $('#navbar-notifications').perfectScrollbar();
+        $('#navbar-messages').perfectScrollbar();
+      });
+    </script>
+
+    <!-- Custom styling -->
+    <style>
+      .page-header-form .input-group-addon,
+      .page-header-form .form-control {
+        background: rgba(0, 0, 0, .05);
+      }
+    </style>
+
+    <!-- Javascripts -->
+    <script>
+      require(['px-bootstrap/tab']);
+    </script>
+    <!-- / Javascripts -->
+</head>
+
+<body>
+  <nav class="px-nav px-nav-left" id="px-demo-nav">
+
+    <ul class="px-nav-content">
+      <li class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-box">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <img src="../../dist/demo/avatars/1.jpg" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
+        <div class="font-size-16"><span class="font-weight-light">Welcome, </span><strong>Marsha</strong></div>
+        <div class="btn-group" style="margin-top: 4px;">
+          <a href="#" class="btn btn-xs btn-primary btn-outline"><i class="fa fa-user"></i></a>
+          <a href="#" class="btn btn-xs btn-primary btn-outline"><i class="fa fa-cog"></i></a>
+          <a href="#" class="btn btn-xs btn-danger btn-outline"><i class="fa fa-power-off"></i></a>
+        </div>
+      </li>
+
+      <li class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-item">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="col-md-12" style="margin-top: 4px;">
+          <i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label" style="color: #fff;">To Do List</span>
+          <span class="label label-danger">2</span>
+        </div>
+      </li>
+
+      <li class="px-nav-box b-t-1 p-a-2">
+        <a href="pages-invoice.html" class="btn btn-primary btn-block btn-outline">Create Checklist</a>
+      </li>
+    </ul>
+  </nav>
+
+
+  <div class="px-content">
+    <div class="page-header">
+      <h1><i class="page-header-icon ion-android-checkbox-outline"></i>Checklist</h1>
+      <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
+        <div class="input-group">
+          <span class="input-group-addon b-a-0 font-size-16"><i class="ion-search"></i></span>
+          <input type="text" placeholder="Search..." class="form-control p-l-0 b-a-0">
+        </div>
+      </form>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- Recent tasks -->
+
+        <div class="page-forums-list-item box panel p-y-2 p-x-3">
+          <div class="box-row">
+            <div class="page-forums-list-title box-cell col-md-7 col-lg-8 col-xl-9 p-r-4">
+              <div class="widget-tasks-item">
+                <table id="editable-table1" style="cursor: pointer;">
+                  <span class="label label-warning pull-right">High</span>
+                  <tr>
+                    <th>
+                      <div class="widget-tasks-item">
+                        <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" checked="">
+                <span class="custom-control-indicator"></span>
+                <span class="widget-tasks-title font-size-15 font-weight-bold">My first task</span>&nbsp;&nbsp;
+                </label>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td tabindex="2">
+                      This is the first note on my new task. Checklist To Do List
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- Spacer -->
+            <hr class="visible-xs visible-sm m-y-2">
+
+            <div class="box-cell col-md-5 col-lg-4 col-xl-3 valign-middle text-md-center">
+              <!-- Reset container's height by wrapping in a div -->
+              <div class="pull-md-right">
+                <div class="box-container width-md-auto valign-middle">
+                  <div class="box-cell p-l-1 p-r-3">
+                    <a href="#">
+                      <div class="font-size-14"><strong>5</strong></div>
+                      <div class="font-size-11 text-muted line-height-1">notes</div>
+                    </a>
+                  </div>
+                  <div class="box-cell p-x-3 b-l-1">
+                    <a href="#">
+                      <div class="font-size-14"><strong>15</strong></div>
+                      <div class="font-size-11 text-muted line-height-1">issues</div>
+                    </a>
+                  </div>
+                  <div class="box-cell p-l-3 p-r-1 b-l-1">
+                    <div class="font-size-11 text-muted">updated</div>
+                    <div class="font-size-14 line-height-1"><span class="font-size-12">3h ago</span>&nbsp;</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="page-forums-list-item box panel p-y-2 p-x-3">
+          <div class="box-row">
+            <div class="page-forums-list-title box-cell col-md-7 col-lg-8 col-xl-9 p-r-4">
+              <div class="widget-tasks-item">
+                <table id="editable-table2" style="cursor: pointer;">
+                  <span class="label label-warning pull-right">High</span>
+                  <tr>
+                    <th>
+                      <div class="widget-tasks-item">
+                        <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" checked="">
+                <span class="custom-control-indicator"></span>
+                <span class="widget-tasks-title font-size-15 font-weight-bold">My first task</span>&nbsp;&nbsp;
+                </label>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td tabindex="2">
+                      This is the first note on my new task. Checklist To Do List
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- Spacer -->
+            <hr class="visible-xs visible-sm m-y-2">
+
+            <div class="box-cell col-md-5 col-lg-4 col-xl-3 valign-middle text-md-center">
+              <!-- Reset container's height by wrapping in a div -->
+              <div class="pull-md-right">
+                <div class="box-container width-md-auto valign-middle">
+                  <div class="box-cell p-l-1 p-r-3">
+                    <a href="#">
+                      <div class="font-size-14"><strong>5</strong></div>
+                      <div class="font-size-11 text-muted line-height-1">notes</div>
+                    </a>
+                  </div>
+                  <div class="box-cell p-x-3 b-l-1">
+                    <a href="#">
+                      <div class="font-size-14"><strong>15</strong></div>
+                      <div class="font-size-11 text-muted line-height-1">issues</div>
+                    </a>
+                  </div>
+                  <div class="box-cell p-l-3 p-r-1 b-l-1">
+                    <div class="font-size-11 text-muted">updated</div>
+                    <div class="font-size-14 line-height-1"><span class="font-size-12">3h ago</span>&nbsp;</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="px-footer px-footer-bottom p-t-0" id="px-demo-footer">
+
+
+    <span class="text-muted">Copyright © 2017 Invenio GML University, Costa Rica. All rights reserved.</span>
+  </footer>
+
+  <!-- Initialize demo sidebar on page load -->
+  <script>
+      require(['demo', 'px/plugins/px-sidebar'], function (pxDemo) {
+        pxDemo.initializeDemoSidebar();
+        $('#px-demo-sidebar').pxSidebar();
+        pxDemo.initializeDemo();
+      });
+  </script>
+
+  <script>
+    require(['jquery', 'px-libs/mindmup-editabletable'], function () {
+      $('#editable-table1').editableTableWidget({
+        editor: $('<input class="form-control">')
+      });
+    });
+  </script>
+
+  <script>
+    require(['jquery', 'px-libs/mindmup-editabletable'], function () {
+      $('#editable-table2').editableTableWidget({
+        editor: $('<input class="form-control">')
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+    require(['jquery', 'px/pixeladmin', 'px/plugins/px-nav', 'px/plugins/px-navbar', 'px/plugins/px-footer'], function ($) {
+      var file = String(document.location).split('/').pop();
+
+      // Remove unnecessary file parts
+      file = file.replace(/(\.html).*/i, '$1');
+
+      if (!/.html$/i.test(file)) {
+        file = 'index.html';
+      }
+
+      // Activate current nav item
+      $('.px-nav')
+        .find('.px-nav-item > a[href="' + file + '"]')
+        .parent()
+        .addClass('active');
+
+      $('#px-demo-nav').pxNav();
+      $('#px-demo-footer').pxFooter();
+    });
+  </script>
+</body>
+
+</html>
