@@ -20,6 +20,7 @@
         </div>
         <input type="text" (keyup.enter)="addChecklist()" [(ngModel)]="newChecklistName" placeholder="New Checklist">
         <br/><br/>
+        <button class="btn btn-default" (click)=showTestModal()>Show test modal</button>
         <button type="button" (click)="logout()">Logout</button>
         <br/><br/>
         <!--<input type="text" id="input-test1" value="Directive test" myLineThrough/>-->
@@ -58,68 +59,3 @@
     </div>
   </div>
 </section>
-
-<!--<section class="main" *ngIf="tempChecklist.length > 0">
-  <h2>{{tempChecklist[0].title}}</h2>
-  <ul class="todo-list">
-    
-    <li *ngFor="let task of tempChecklist[0].tasks">
-      <div class="view">
-        
-        <label>{{task.name}}</label>
-        
-      </div>
-    </li>
-  </ul>
-</section>-->
-
-
-
-<!--<form id="todo-list">
-  <span class="todo-wrap">
-    <input type="checkbox" id="1" checked/>
-    <label for="1" class="todo">
-      <i class="fa fa-check"></i>
-      Have a good idea
-    </label>
-    <span class="delete-item" title="remove">
-      <i class="fa fa-times-circle"></i>
-    </span>
-  </span>
-  <br/>
-  <span class="todo-wrap">
-    <input type="checkbox" id="2"/>
-    <label for="2" class="todo">
-      <i class="fa fa-check"></i>
-      Plan idea execution
-    </label>
-    <span class="delete-item" title="remove">
-      <i class="fa fa-times-circle"></i>
-    </span>
-  </span>
-  <br/>
-  <span class="todo-wrap">
-    <input type="checkbox" id="3"/>
-    <label for="3" class="todo">
-      <i class="fa fa-check"></i>
-      Execute idea
-    </label>
-    <span class="delete-item" title="remove">
-      <i class="fa fa-times-circle"></i>
-    </span>
-  </span>
-  <br/>
-	<span class="todo-wrap">
-    <input type="checkbox" id="4"/>
-    <label for="4" class="todo">
-      <i class="fa fa-check"></i>
-      Celebrate with a cold one
-    </label>
-    <span class="delete-item" title="remove">
-      <i class="fa fa-times-circle"></i>
-    </span>
-  </span>
-
-  <br/>
-  <button type="button" (click)="logout()">Logout</button> 
-</form>-->

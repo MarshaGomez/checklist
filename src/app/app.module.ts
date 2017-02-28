@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+
 import { routing } from './app.routing';
 
 import { AppComponent } from './app.component';
@@ -14,13 +16,15 @@ import { ChecklistService } from './services/checklist.service';
 import { TaskService } from './services/task.service';
 import { LineThroughDirective } from './directives/line.through.directive';
 import { Highlight } from './directives/highlight.directive';
+import { NotesDialogComponent } from './components/notes.dialog.component';
 
 @NgModule({
   imports:      [ 
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing 
+    BootstrapModalModule,
+    routing
     ],
   declarations: [ 
     AppComponent,
@@ -28,8 +32,12 @@ import { Highlight } from './directives/highlight.directive';
     LoginComponent,
     ChecklistComponent,
     LineThroughDirective,
-    Highlight
+    Highlight,
+    NotesDialogComponent
     ],
+  entryComponents: [
+    NotesDialogComponent
+  ],
   providers: [
     UserService,
     ChecklistService,

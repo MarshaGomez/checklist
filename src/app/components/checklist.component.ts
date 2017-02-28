@@ -2,12 +2,14 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CookieService} from 'angular2-cookie/core';
+import { DialogService } from 'ng2-bootstrap-modal';
 
 import { UserService } from '../services/user.service';
 import { ChecklistService } from '../services/checklist.service';
 import { TaskService } from '../services/task.service';
 import { Checklist } from '../entities/checklist';
 import { Task } from '../entities/task';
+import { NotesDialogComponent } from './notes.dialog.component';
 
 @Component({
   moduleId: module.id,
@@ -35,7 +37,8 @@ export class ChecklistComponent {
     private router: Router,
     private userService: UserService,
     private checklistService: ChecklistService,
-    private taskService: TaskService){
+    private taskService: TaskService,
+    private dialogService: DialogService){
       
     }
   
@@ -218,22 +221,6 @@ export class ChecklistComponent {
       );
   }
 
-  // addTask() {
-  //   this.modal.prompt()
-  //       .size('lg')
-  //       .showClose(true)
-  //       .title('A simple Alert style modal window')
-  //       .body(`
-  //             <br/><br/>
-  //             <input type="text" [(ngModel)]="taskToAdd.name" placeholder="New task name">
-  //             <br/><br/>
-  //       `)
-  //       .open().catch(err => alert("ERROR")) // catch error not related to the result (modal open...)
-  //           .then(dialog => (<any>dialog).result) // dialog has more properties,lets just return the promise for a result. 
-  //           .then(result => this.test()) // if were here ok was clicked.
-  //           .catch(err => {console.log("Error modal");}); // if were here it was cancelled (click or non block click);
-  // }
-
   newTask(){
     if(!this.taskToAdd.name || this.taskToAdd.name == "" || !this.taskToAdd.description || this.taskToAdd.description == "" ){
       return;
@@ -307,6 +294,26 @@ export class ChecklistComponent {
           console.log('Update Task error');
         }
       );
+  }
+
+  showTestModal() {
+      let disposable = this.dialogService.addDialog(NotesDialogComponent, {
+          title:'Confirm title', 
+          message:'Confirm message'})
+          .subscribe((result)=>{
+
+              if(result){
+                alert('accepted: name: ' + result.name + ' description:' + result.description);
+              }else {
+                  alert('declined');
+              }
+              
+          });
+      //We can close dialog calling disposable.unsubscribe();
+      //If dialog was not closed manually close it by timeout
+      setTimeout(()=>{
+          disposable.unsubscribe();
+      },10000);
   }
 
 }
