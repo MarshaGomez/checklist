@@ -24,6 +24,8 @@ var task_service_1 = require('./services/task.service');
 var line_through_directive_1 = require('./directives/line.through.directive');
 var highlight_directive_1 = require('./directives/highlight.directive');
 var notes_dialog_component_1 = require('./components/notes.dialog.component');
+var add_task_dialog_component_1 = require('./components/add.task.dialog.component');
+var update_task_dialog_component_1 = require('./components/update.task.dialog.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -43,10 +45,14 @@ var AppModule = (function () {
                 checklist_component_1.ChecklistComponent,
                 line_through_directive_1.LineThroughDirective,
                 highlight_directive_1.Highlight,
-                notes_dialog_component_1.NotesDialogComponent
+                notes_dialog_component_1.NotesDialogComponent,
+                add_task_dialog_component_1.AddTaskDialogComponent,
+                update_task_dialog_component_1.UpdateTaskDialogComponent
             ],
             entryComponents: [
-                notes_dialog_component_1.NotesDialogComponent
+                notes_dialog_component_1.NotesDialogComponent,
+                add_task_dialog_component_1.AddTaskDialogComponent,
+                update_task_dialog_component_1.UpdateTaskDialogComponent
             ],
             providers: [
                 user_service_1.UserService,

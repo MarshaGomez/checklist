@@ -10,6 +10,8 @@ import { TaskService } from '../services/task.service';
 import { Checklist } from '../entities/checklist';
 import { Task } from '../entities/task';
 import { NotesDialogComponent } from './notes.dialog.component';
+import { AddTaskDialogComponent } from './add.task.dialog.component';
+import { UpdateTaskDialogComponent } from './update.task.dialog.component';
 
 @Component({
   moduleId: module.id,
@@ -263,10 +265,6 @@ export class ChecklistComponent {
       );
   }
 
-  setTaskData(task:Task){
-    this.taskToUpdate = Object.assign(new Task, task);
-  }
-
   updateTask(){
     console.log('TaskId to update ' + this.taskToUpdate.id);
     if(!this.taskToUpdate.name || this.taskToUpdate.name == "" || !this.taskToUpdate.description || this.taskToUpdate.description == "" ){
@@ -294,6 +292,50 @@ export class ChecklistComponent {
           console.log('Update Task error');
         }
       );
+  }
+
+  showAddTaskModal() {
+      let disposable = this.dialogService.addDialog(AddTaskDialogComponent, {
+          title:'Confirm title', 
+          message:'Confirm message'})
+          .subscribe((result)=>{
+              if(result){
+                this.taskToAdd.name = result.name;
+                this.taskToAdd.description = result.description;
+                this.newTask();
+                alert('accepted: name: ' + result.name + ' description:' + result.description);
+              }else {
+                  
+              }
+              
+          });
+      //We can close dialog calling disposable.unsubscribe();
+      //If dialog was not closed manually close it by timeout
+      setTimeout(()=>{
+          disposable.unsubscribe();
+      },10000);
+  }
+
+  showUpdateTaskModal(task:Task) {
+      this.taskToUpdate = Object.assign(new Task, task);
+      let disposable = this.dialogService.addDialog(UpdateTaskDialogComponent, {
+          title:'Confirm title', 
+          message:'Confirm message', name:this.taskToUpdate.name, description:this.taskToUpdate.description })
+          
+          .subscribe((result)=>{
+              if(result){
+                this.taskToUpdate.name = result.name;
+                this.taskToUpdate.description = result.description;
+                this.updateTask();
+              }else {
+              }
+              
+          });
+      //We can close dialog calling disposable.unsubscribe();
+      //If dialog was not closed manually close it by timeout
+      setTimeout(()=>{
+          disposable.unsubscribe();
+      },10000);
   }
 
   showTestModal() {

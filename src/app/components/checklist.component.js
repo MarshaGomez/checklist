@@ -18,6 +18,8 @@ var task_service_1 = require('../services/task.service');
 var checklist_1 = require('../entities/checklist');
 var task_1 = require('../entities/task');
 var notes_dialog_component_1 = require('./notes.dialog.component');
+var add_task_dialog_component_1 = require('./add.task.dialog.component');
+var update_task_dialog_component_1 = require('./update.task.dialog.component');
 var ChecklistComponent = (function () {
     function ChecklistComponent(cookieService, router, userService, checklistService, taskService, dialogService) {
         this.cookieService = cookieService;
@@ -202,9 +204,6 @@ var ChecklistComponent = (function () {
             console.log('Completed Task error');
         });
     };
-    ChecklistComponent.prototype.setTaskData = function (task) {
-        this.taskToUpdate = Object.assign(new task_1.Task, task);
-    };
     ChecklistComponent.prototype.updateTask = function () {
         var _this = this;
         console.log('TaskId to update ' + this.taskToUpdate.id);
@@ -230,6 +229,48 @@ var ChecklistComponent = (function () {
         }, function (error) {
             console.log('Update Task error');
         });
+    };
+    ChecklistComponent.prototype.showAddTaskModal = function () {
+        var _this = this;
+        var disposable = this.dialogService.addDialog(add_task_dialog_component_1.AddTaskDialogComponent, {
+            title: 'Confirm title',
+            message: 'Confirm message' })
+            .subscribe(function (result) {
+            if (result) {
+                _this.taskToAdd.name = result.name;
+                _this.taskToAdd.description = result.description;
+                _this.newTask();
+                alert('accepted: name: ' + result.name + ' description:' + result.description);
+            }
+            else {
+            }
+        });
+        //We can close dialog calling disposable.unsubscribe();
+        //If dialog was not closed manually close it by timeout
+        setTimeout(function () {
+            disposable.unsubscribe();
+        }, 10000);
+    };
+    ChecklistComponent.prototype.showUpdateTaskModal = function (task) {
+        var _this = this;
+        this.taskToUpdate = Object.assign(new task_1.Task, task);
+        var disposable = this.dialogService.addDialog(update_task_dialog_component_1.UpdateTaskDialogComponent, {
+            title: 'Confirm title',
+            message: 'Confirm message', name: this.taskToUpdate.name, description: this.taskToUpdate.description })
+            .subscribe(function (result) {
+            if (result) {
+                _this.taskToUpdate.name = result.name;
+                _this.taskToUpdate.description = result.description;
+                _this.updateTask();
+            }
+            else {
+            }
+        });
+        //We can close dialog calling disposable.unsubscribe();
+        //If dialog was not closed manually close it by timeout
+        setTimeout(function () {
+            disposable.unsubscribe();
+        }, 10000);
     };
     ChecklistComponent.prototype.showTestModal = function () {
         var disposable = this.dialogService.addDialog(notes_dialog_component_1.NotesDialogComponent, {

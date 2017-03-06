@@ -17,6 +17,8 @@ import { TaskService } from './services/task.service';
 import { LineThroughDirective } from './directives/line.through.directive';
 import { Highlight } from './directives/highlight.directive';
 import { NotesDialogComponent } from './components/notes.dialog.component';
+import { AddTaskDialogComponent } from './components/add.task.dialog.component';
+import { UpdateTaskDialogComponent } from './components/update.task.dialog.component';
 
 @NgModule({
   imports:      [ 
@@ -33,10 +35,14 @@ import { NotesDialogComponent } from './components/notes.dialog.component';
     ChecklistComponent,
     LineThroughDirective,
     Highlight,
-    NotesDialogComponent
+    NotesDialogComponent,
+    AddTaskDialogComponent,
+    UpdateTaskDialogComponent
     ],
   entryComponents: [
-    NotesDialogComponent
+    NotesDialogComponent,
+    AddTaskDialogComponent,
+    UpdateTaskDialogComponent
   ],
   providers: [
     UserService,
