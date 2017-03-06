@@ -13,9 +13,9 @@
     </li>
 
     <li *ngFor="let checklist of checklists" class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-item">
-      <button type="button" (click)="deleteChecklist(checklist)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <button type="button" (click)="showDeleteCheckListModal(checklist)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <div class="col-md-12" style="margin-top: 4px;">
-        <i class="px-nav-icon ion-ios-pulse-strong"></i><span (click)="selectChecklist(checklist)" class="px-nav-label" style="color: #fff;">{{checklist.name}}</span>        
+        <i class="px-nav-icon ion-ios-pulse-strong"></i><span (click)="selectChecklist(checklist)" class="px-nav-label" style="color: #fff;">{{checklist.name}}</span>
       </div>
     </li>
 
@@ -28,7 +28,8 @@
 
 <div class="px-content">
   <div class="page-header">
-    <h1><i class="page-header-icon ion-android-checkbox-outline"></i>Checklist</h1>
+    <h1><i class="page-header-icon ion-android-checkbox-outline"></i>{{selectedChecklistName}}</h1>
+    <button *ngIf="selectedChecklistId" (click)="editChecklistName()">Edit checklist name</button>
     <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
       <div class="input-group">
         <span class="input-group-addon b-a-0 font-size-16"><i class="ion-search"></i></span>

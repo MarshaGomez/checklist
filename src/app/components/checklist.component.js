@@ -21,6 +21,7 @@ var notes_dialog_component_1 = require('./notes.dialog.component');
 var add_task_dialog_component_1 = require('./add.task.dialog.component');
 var update_task_dialog_component_1 = require('./update.task.dialog.component');
 var delete_task_dialog_component_1 = require('./delete.task.dialog.component');
+var delete_checklist_dialog_component_1 = require('./delete.checklist.dialog.component');
 var ChecklistComponent = (function () {
     function ChecklistComponent(cookieService, router, userService, checklistService, taskService, dialogService) {
         this.cookieService = cookieService;
@@ -34,7 +35,6 @@ var ChecklistComponent = (function () {
         this.line_through = false;
         this.checklists = [];
         this.tasks = [];
-        this.selectedChecklistId = '5c23d71f-f49c-4398-93e2-bbfcf324e916';
     }
     ChecklistComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -67,6 +67,9 @@ var ChecklistComponent = (function () {
             this.router.navigate(['/login']);
         }
         this.selectedChecklistId = checklist.id;
+        this.selectedChecklistName = checklist.name;
+        console.log('Checklist selected: ');
+        console.log(checklist.name);
         this.taskService.getByChecklist(this.selectedChecklistId, token)
             .subscribe(function (res) {
             console.log('Tasks Res: ');
@@ -161,7 +164,7 @@ var ChecklistComponent = (function () {
             this.router.navigate(['/login']);
         }
         var newChecklist = new checklist_1.Checklist();
-        newChecklist.title = this.newChecklistName;
+        newChecklist.name = this.newChecklistName;
         this.checklistService.add(newChecklist, token)
             .subscribe(function (res) {
             console.log('Checklist added');
@@ -301,6 +304,19 @@ var ChecklistComponent = (function () {
         setTimeout(function () {
             disposable.unsubscribe();
         }, 10000);
+    };
+    ChecklistComponent.prototype.showDeleteCheckListModal = function (checklist) {
+        var _this = this;
+        var disposable = this.dialogService.addDialog(delete_checklist_dialog_component_1.DeleteChecklistDialogComponent, {
+            title: 'Confirm title',
+            message: 'Confirm message' })
+            .subscribe(function (result) {
+            if (result) {
+                _this.deleteChecklist(checklist);
+            }
+        });
+    };
+    ChecklistComponent.prototype.editChecklistName = function () {
     };
     ChecklistComponent = __decorate([
         core_1.Component({

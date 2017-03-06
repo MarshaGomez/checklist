@@ -13,6 +13,7 @@ import { NotesDialogComponent } from './notes.dialog.component';
 import { AddTaskDialogComponent } from './add.task.dialog.component';
 import { UpdateTaskDialogComponent } from './update.task.dialog.component';
 import { DeleteTaskDialogComponent } from './delete.task.dialog.component';
+import { DeleteChecklistDialogComponent } from './delete.checklist.dialog.component';
 
 @Component({
   moduleId: module.id,
@@ -36,7 +37,8 @@ export class ChecklistComponent {
   taskToAdd : Task;
   taskToUpdate : Task;
 
-  selectedChecklistId: string = '5c23d71f-f49c-4398-93e2-bbfcf324e916';
+  selectedChecklistId: string;
+  selectedChecklistName: string;
 
   constructor(private cookieService:CookieService,
     private router: Router,
@@ -88,6 +90,9 @@ export class ChecklistComponent {
       this.router.navigate(['/login']);
     }
     this.selectedChecklistId = checklist.id;
+    this.selectedChecklistName = checklist.name;
+    console.log('Checklist selected: ');
+    console.log(checklist.name);
     this.taskService.getByChecklist(this.selectedChecklistId, token)
         .subscribe(
           res => {
@@ -211,7 +216,7 @@ export class ChecklistComponent {
     }
 
     let newChecklist: Checklist = new Checklist();
-    newChecklist.title = this.newChecklistName;
+    newChecklist.name = this.newChecklistName;
 
     this.checklistService.add(newChecklist, token)
       .subscribe(
@@ -370,6 +375,21 @@ export class ChecklistComponent {
       setTimeout(()=>{
           disposable.unsubscribe();
       },10000);
+  }
+
+  showDeleteCheckListModal(checklist: Checklist){
+    let disposable = this.dialogService.addDialog(DeleteChecklistDialogComponent, {
+          title:'Confirm title', 
+          message:'Confirm message'})
+          .subscribe((result)=>{
+              if(result){
+                this.deleteChecklist(checklist);
+              }              
+          });
+  }
+
+  editChecklistName(){
+
   }
 
 }

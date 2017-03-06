@@ -55,7 +55,7 @@ var ChecklistService = (function () {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
         var options = new http_1.RequestOptions({ headers: headers });
         var body = {
-            name: checklist.title
+            name: checklist.name
         };
         return this.http.post('http://localhost:8084/ChecklistsAPI/api/checklists/', body, options)
             .map(this.extractData)
@@ -65,7 +65,7 @@ var ChecklistService = (function () {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
         var options = new http_1.RequestOptions({ headers: headers });
         var body = {
-            title: checklist.title
+            title: checklist.name
         };
         return this.http.put('http://localhost:8084/ChecklistsAPI/api/checklists/' + checklist.id, body, options)
             .map(this.extractData)

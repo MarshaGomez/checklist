@@ -2,7 +2,7 @@ import { Task } from './task';
 
 export class Checklist {
     id: string;
-    title: string = '';
+    name: string = '';
     tasks: Array<Task>;
 
     constructor(values: Object = {}) {

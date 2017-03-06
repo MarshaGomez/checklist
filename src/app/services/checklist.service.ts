@@ -56,7 +56,7 @@ export class ChecklistService {
     let options = new RequestOptions({headers: headers});
 
     let body = {
-        name: checklist.title
+        name: checklist.name
     };
 
     return this.http.post('http://localhost:8084/ChecklistsAPI/api/checklists/', body, options)
@@ -69,7 +69,7 @@ export class ChecklistService {
     let options = new RequestOptions({headers: headers});
 
     let body = {
-        title: checklist.title
+        title: checklist.name
     };
 
     return this.http.put('http://localhost:8084/ChecklistsAPI/api/checklists/' + checklist.id , body, options)

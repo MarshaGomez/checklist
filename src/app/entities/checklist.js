@@ -2,7 +2,7 @@
 var Checklist = (function () {
     function Checklist(values) {
         if (values === void 0) { values = {}; }
-        this.title = '';
+        this.name = '';
         Object.assign(this, values);
     }
     return Checklist;

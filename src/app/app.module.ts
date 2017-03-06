@@ -20,6 +20,7 @@ import { NotesDialogComponent } from './components/notes.dialog.component';
 import { AddTaskDialogComponent } from './components/add.task.dialog.component';
 import { UpdateTaskDialogComponent } from './components/update.task.dialog.component';
 import { DeleteTaskDialogComponent } from './components/delete.task.dialog.component';
+import { DeleteChecklistDialogComponent } from './components/delete.checklist.dialog.component';
 
 @NgModule({
   imports:      [ 
@@ -39,13 +40,15 @@ import { DeleteTaskDialogComponent } from './components/delete.task.dialog.compo
     NotesDialogComponent,
     AddTaskDialogComponent,
     UpdateTaskDialogComponent,
-    DeleteTaskDialogComponent    
+    DeleteTaskDialogComponent,
+    DeleteChecklistDialogComponent 
     ],
   entryComponents: [
     NotesDialogComponent,
     AddTaskDialogComponent,
     UpdateTaskDialogComponent,
-    DeleteTaskDialogComponent
+    DeleteTaskDialogComponent,
+    DeleteChecklistDialogComponent
   ],
   providers: [
     UserService,
