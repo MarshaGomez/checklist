@@ -18,7 +18,9 @@ import { DeleteTaskDialogComponent } from './delete.task.dialog.component';
   moduleId: module.id,
   selector: 'checklist',
   templateUrl: '../templates/checklist.component.html',
-  //styleUrls: ['./checklist.component.css']
+  styleUrls: [ '../../assets/css/demo.css', 
+      '../../assets/css/pixeladmin.css', 
+      '../../assets/css/frost.css' ],
   providers: [ CookieService ]
 })
 export class ChecklistComponent {

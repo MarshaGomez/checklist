@@ -307,7 +307,9 @@ var ChecklistComponent = (function () {
             moduleId: module.id,
             selector: 'checklist',
             templateUrl: '../templates/checklist.component.html',
-            //styleUrls: ['./checklist.component.css']
+            styleUrls: ['../../assets/css/demo.css',
+                '../../assets/css/pixeladmin.css',
+                '../../assets/css/frost.css'],
             providers: [core_2.CookieService]
         }), 
         __metadata('design:paramtypes', [core_2.CookieService, router_1.Router, user_service_1.UserService, checklist_service_1.ChecklistService, task_service_1.TaskService, ng2_bootstrap_modal_1.DialogService])

@@ -1,3 +1,124 @@
+<nav class="px-nav px-nav-left" id="px-demo-nav">
+
+  <ul class="px-nav-content">
+    <li class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-box">
+      <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <img src="assets/img/marsha.jpg" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
+      <div class="font-size-16"><span class="font-weight-light">Welcome, </span><strong>Marsha</strong></div>
+      <div class="btn-group" style="margin-top: 4px;">
+        <a href="#" class="btn btn-xs btn-primary btn-outline"><i class="fa fa-user"></i></a>
+        <a href="#" class="btn btn-xs btn-primary btn-outline"><i class="fa fa-cog"></i></a>
+        <a href="#" class="btn btn-xs btn-danger btn-outline"><i class="fa fa-power-off"></i></a>
+      </div>
+    </li>
+
+    <li *ngFor="let checklist of checklists" class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-item">
+      <button type="button" (click)="deleteChecklist(checklist)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="col-md-12" style="margin-top: 4px;">
+        <i class="px-nav-icon ion-ios-pulse-strong"></i><span (click)="selectChecklist(checklist)" class="px-nav-label" style="color: #fff;">{{checklist.name}}</span>        
+      </div>
+    </li>
+
+    <input type="text" (keyup.enter)="addChecklist()" [(ngModel)]="newChecklistName" placeholder="New Checklist">
+    <li class="px-nav-box b-t-1 p-a-2">
+      <a class="btn btn-primary btn-block btn-outline">Create Checklist</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="px-content">
+  <div class="page-header">
+    <h1><i class="page-header-icon ion-android-checkbox-outline"></i>Checklist</h1>
+    <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
+      <div class="input-group">
+        <span class="input-group-addon b-a-0 font-size-16"><i class="ion-search"></i></span>
+        <input type="text" placeholder="Search..." class="form-control p-l-0 b-a-0">
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <button (click)="showAddTaskModal()">New Task</button>
+
+      <!-- Recent tasks -->
+
+      <div *ngFor="let task of tasks" class="page-forums-list-item box panel p-y-2 p-x-3">
+        <div class="box-row">
+          <div class="page-forums-list-title box-cell col-md-7 col-lg-8 col-xl-9 p-r-4">
+            <div class="widget-tasks-item">
+              <table id="editable-table1" style="cursor: pointer;">
+                <span class="label label-warning pull-right">High</span>
+                <tr>
+                  <th>
+                    <div class="widget-tasks-item">
+                      <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [checked]="task.completed" [(ngModel)]="task.completed"/>
+                        <span class="custom-control-indicator"></span>
+                        <span class="widget-tasks-title font-size-15 font-weight-bold">{{task.name}}</span>
+                        <button type="button" (click)="showDeleteTaskModal(task)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        &nbsp;&nbsp;
+                      </label>
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <td tabindex="2">
+                    {{task.description}}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- Spacer -->
+          <hr class="visible-xs visible-sm m-y-2">
+
+          <div class="box-cell col-md-5 col-lg-4 col-xl-3 valign-middle text-md-center">
+            <!-- Reset container's height by wrapping in a div -->
+            <div class="pull-md-right">
+              <div class="box-container width-md-auto valign-middle">
+                <div class="box-cell p-l-1 p-r-3">
+                  <a href="#">
+                    <div class="font-size-14"><strong>5</strong></div>
+                    <div class="font-size-11 text-muted line-height-1">notes</div>
+                  </a>
+                </div>
+                <div class="box-cell p-x-3 b-l-1">
+                  <a href="#">
+                    <div class="font-size-14"><strong>15</strong></div>
+                    <div class="font-size-11 text-muted line-height-1">issues</div>
+                  </a>
+                </div>
+                <div class="box-cell p-l-3 p-r-1 b-l-1">
+                  <div class="font-size-11 text-muted">updated</div>
+                  <div class="font-size-14 line-height-1"><span class="font-size-12">3h ago</span>&nbsp;</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div *ngIf="false">
+
+
 
 <section class="main">
   <div class="colmask">
@@ -51,3 +172,7 @@
     </div>
   </div>
 </section>
+
+
+
+</div>

@@ -33,10 +33,7 @@ var AddTaskDialogComponent = (function (_super) {
     AddTaskDialogComponent = __decorate([
         core_1.Component({
             selector: 'confirm',
-            template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <p>{{message || 'Are you sure?'}}</p>\n                    <input type=\"text\" [(ngModel)]=\"name\" placeholder=\"New task name\">\n                    <input type=\"text\" [(ngModel)]=\"description\" placeholder=\"New task description\">\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                    <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n                </div>\n                </div>",
-            styleUrls: ['../../assets/css/demo.css',
-                '../../assets/css/pixeladmin.css',
-                '../../assets/css/frost.css']
+            template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <p>{{message || 'Are you sure?'}}</p>\n                    <input type=\"text\" [(ngModel)]=\"name\" placeholder=\"New task name\">\n                    <input type=\"text\" [(ngModel)]=\"description\" placeholder=\"New task description\">\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                    <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n                </div>\n                </div>"
         }), 
         __metadata('design:paramtypes', [ng2_bootstrap_modal_1.DialogService])
     ], AddTaskDialogComponent);

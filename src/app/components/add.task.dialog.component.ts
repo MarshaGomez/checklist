@@ -17,10 +17,7 @@ import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
                     <button type="button" class="btn btn-primary" (click)="confirm()">OK</button>
                     <button type="button" class="btn btn-default" (click)="close()" >Cancel</button>
                 </div>
-                </div>`,
-    styleUrls: [ '../../assets/css/demo.css', 
-        '../../assets/css/pixeladmin.css', 
-        '../../assets/css/frost.css' ]
+                </div>`
 })
 export class AddTaskDialogComponent extends DialogComponent {
 
