@@ -20,6 +20,7 @@ var task_1 = require('../entities/task');
 var notes_dialog_component_1 = require('./notes.dialog.component');
 var add_task_dialog_component_1 = require('./add.task.dialog.component');
 var update_task_dialog_component_1 = require('./update.task.dialog.component');
+var delete_task_dialog_component_1 = require('./delete.task.dialog.component');
 var ChecklistComponent = (function () {
     function ChecklistComponent(cookieService, router, userService, checklistService, taskService, dialogService) {
         this.cookieService = cookieService;
@@ -271,6 +272,17 @@ var ChecklistComponent = (function () {
         setTimeout(function () {
             disposable.unsubscribe();
         }, 10000);
+    };
+    ChecklistComponent.prototype.showDeleteTaskModal = function (task) {
+        var _this = this;
+        var disposable = this.dialogService.addDialog(delete_task_dialog_component_1.DeleteTaskDialogComponent, {
+            title: 'Confirm title',
+            message: 'Confirm message', name: this.taskToUpdate.name, description: this.taskToUpdate.description })
+            .subscribe(function (result) {
+            if (result) {
+                _this.deleteTask(task);
+            }
+        });
     };
     ChecklistComponent.prototype.showTestModal = function () {
         var disposable = this.dialogService.addDialog(notes_dialog_component_1.NotesDialogComponent, {

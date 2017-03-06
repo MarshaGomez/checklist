@@ -26,6 +26,7 @@ var highlight_directive_1 = require('./directives/highlight.directive');
 var notes_dialog_component_1 = require('./components/notes.dialog.component');
 var add_task_dialog_component_1 = require('./components/add.task.dialog.component');
 var update_task_dialog_component_1 = require('./components/update.task.dialog.component');
+var delete_task_dialog_component_1 = require('./components/delete.task.dialog.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -47,12 +48,14 @@ var AppModule = (function () {
                 highlight_directive_1.Highlight,
                 notes_dialog_component_1.NotesDialogComponent,
                 add_task_dialog_component_1.AddTaskDialogComponent,
-                update_task_dialog_component_1.UpdateTaskDialogComponent
+                update_task_dialog_component_1.UpdateTaskDialogComponent,
+                delete_task_dialog_component_1.DeleteTaskDialogComponent
             ],
             entryComponents: [
                 notes_dialog_component_1.NotesDialogComponent,
                 add_task_dialog_component_1.AddTaskDialogComponent,
-                update_task_dialog_component_1.UpdateTaskDialogComponent
+                update_task_dialog_component_1.UpdateTaskDialogComponent,
+                delete_task_dialog_component_1.DeleteTaskDialogComponent
             ],
             providers: [
                 user_service_1.UserService,

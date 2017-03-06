@@ -19,6 +19,7 @@ import { Highlight } from './directives/highlight.directive';
 import { NotesDialogComponent } from './components/notes.dialog.component';
 import { AddTaskDialogComponent } from './components/add.task.dialog.component';
 import { UpdateTaskDialogComponent } from './components/update.task.dialog.component';
+import { DeleteTaskDialogComponent } from './components/delete.task.dialog.component';
 
 @NgModule({
   imports:      [ 
@@ -37,12 +38,14 @@ import { UpdateTaskDialogComponent } from './components/update.task.dialog.compo
     Highlight,
     NotesDialogComponent,
     AddTaskDialogComponent,
-    UpdateTaskDialogComponent
+    UpdateTaskDialogComponent,
+    DeleteTaskDialogComponent    
     ],
   entryComponents: [
     NotesDialogComponent,
     AddTaskDialogComponent,
-    UpdateTaskDialogComponent
+    UpdateTaskDialogComponent,
+    DeleteTaskDialogComponent
   ],
   providers: [
     UserService,

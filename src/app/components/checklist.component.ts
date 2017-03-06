@@ -12,6 +12,7 @@ import { Task } from '../entities/task';
 import { NotesDialogComponent } from './notes.dialog.component';
 import { AddTaskDialogComponent } from './add.task.dialog.component';
 import { UpdateTaskDialogComponent } from './update.task.dialog.component';
+import { DeleteTaskDialogComponent } from './delete.task.dialog.component';
 
 @Component({
   moduleId: module.id,
@@ -336,6 +337,17 @@ export class ChecklistComponent {
       setTimeout(()=>{
           disposable.unsubscribe();
       },10000);
+  }
+
+  showDeleteTaskModal(task: Task){
+    let disposable = this.dialogService.addDialog(DeleteTaskDialogComponent, {
+          title:'Confirm title', 
+          message:'Confirm message', name:this.taskToUpdate.name, description:this.taskToUpdate.description })
+          .subscribe((result)=>{
+              if(result){
+                this.deleteTask(task);
+              }              
+          });
   }
 
   showTestModal() {
