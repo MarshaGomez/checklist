@@ -388,7 +388,6 @@ export class ChecklistComponent {
           });
   }
 
-
   showUpdateChecklistModal(checklist: Checklist) {
       this.checklistToUpdate = Object.assign(new Checklist, checklist);
       let disposable = this.dialogService.addDialog(UpdateChecklistDialogComponent, {

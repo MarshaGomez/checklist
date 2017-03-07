@@ -11,15 +11,13 @@
         <a href="#" class="btn btn-xs btn-danger btn-outline"><i class="fa fa-power-off"></i></a>
       </div>
     </li>
-
+    <input type="text" (keyup.enter)="addChecklist()" [(ngModel)]="newChecklistName" placeholder="New Checklist">
     <li *ngFor="let checklist of checklists" class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-item">
       <button type="button" (click)="showDeleteCheckListModal(checklist)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <div class="col-md-12" style="margin-top: 4px;">
         <i class="px-nav-icon ion-ios-pulse-strong"></i><span (click)="selectChecklist(checklist)" class="px-nav-label" style="color: #fff;">{{checklist.name}}</span>
       </div>
     </li>
-
-    <input type="text" (keyup.enter)="addChecklist()" [(ngModel)]="newChecklistName" placeholder="New Checklist">
     <li class="px-nav-box b-t-1 p-a-2">
       <a class="btn btn-primary btn-block btn-outline">Create Checklist</a>
     </li>
@@ -29,7 +27,8 @@
 <div class="px-content">
   <div class="page-header">
     <h1><i class="page-header-icon ion-android-checkbox-outline"></i>{{selectedChecklist.name}}</h1>
-    <button *ngIf="selectedChecklist.id" (click)="showUpdateChecklistModal(selectedChecklist)">Edit checklist name</button>
+    
+    <img src="../../assets/img/ico/edit.png" alt="Mountain View" style="width:18px;height:18px;" *ngIf="selectedChecklist.id" (click)="showUpdateChecklistModal(selectedChecklist)" />
     <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
       <div class="input-group">
         <span class="input-group-addon b-a-0 font-size-16"><i class="ion-search"></i></span>
@@ -55,10 +54,10 @@
                   <th>
                     <div class="widget-tasks-item">
                       <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" [checked]="task.completed" [(ngModel)]="task.completed"/>
+                        <input type="checkbox" class="custom-control-input" [checked]="task.completed" [(ngModel)]="task.completed" (click)= "completeTask(task)"/>
                         <span class="custom-control-indicator"></span>
                         <span class="widget-tasks-title font-size-15 font-weight-bold">{{task.name}}</span>
-                        <button type="button" (click)="showDeleteTaskModal(task)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        
                         &nbsp;&nbsp;
                       </label>
                     </div>
@@ -80,6 +79,9 @@
             <!-- Reset container's height by wrapping in a div -->
             <div class="pull-md-right">
               <div class="box-container width-md-auto valign-middle">
+                <div >
+                    <img src="../../assets/img/ico/edit.png" alt="Mountain View" style="width:15px;height:15px;" (click)="showUpdateTaskModal(task)" />
+                </div>
                 <div class="box-cell p-l-1 p-r-3">
                   <a href="#">
                     <div class="font-size-14"><strong>5</strong></div>
@@ -95,6 +97,9 @@
                 <div class="box-cell p-l-3 p-r-1 b-l-1">
                   <div class="font-size-11 text-muted">updated</div>
                   <div class="font-size-14 line-height-1"><span class="font-size-12">3h ago</span>&nbsp;</div>
+                </div>
+                <div class="box-cell p-l-1 p-r-3">
+                  <button type="button" (click)="showDeleteTaskModal(task)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
               </div>
             </div>
