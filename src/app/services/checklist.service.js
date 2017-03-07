@@ -62,10 +62,12 @@ var ChecklistService = (function () {
             .catch(this.handleError);
     };
     ChecklistService.prototype.updateChecklist = function (checklist, token) {
+        console.log("service");
+        console.log(checklist);
         var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
         var options = new http_1.RequestOptions({ headers: headers });
         var body = {
-            title: checklist.name
+            name: checklist.name
         };
         return this.http.put('http://localhost:8084/ChecklistsAPI/api/checklists/' + checklist.id, body, options)
             .map(this.extractData)

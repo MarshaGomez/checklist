@@ -28,6 +28,7 @@ var add_task_dialog_component_1 = require('./components/add.task.dialog.componen
 var update_task_dialog_component_1 = require('./components/update.task.dialog.component');
 var delete_task_dialog_component_1 = require('./components/delete.task.dialog.component');
 var delete_checklist_dialog_component_1 = require('./components/delete.checklist.dialog.component');
+var update_checklist_dialog_component_1 = require('./components/update.checklist.dialog.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -51,14 +52,16 @@ var AppModule = (function () {
                 add_task_dialog_component_1.AddTaskDialogComponent,
                 update_task_dialog_component_1.UpdateTaskDialogComponent,
                 delete_task_dialog_component_1.DeleteTaskDialogComponent,
-                delete_checklist_dialog_component_1.DeleteChecklistDialogComponent
+                delete_checklist_dialog_component_1.DeleteChecklistDialogComponent,
+                update_checklist_dialog_component_1.UpdateChecklistDialogComponent
             ],
             entryComponents: [
                 notes_dialog_component_1.NotesDialogComponent,
                 add_task_dialog_component_1.AddTaskDialogComponent,
                 update_task_dialog_component_1.UpdateTaskDialogComponent,
                 delete_task_dialog_component_1.DeleteTaskDialogComponent,
-                delete_checklist_dialog_component_1.DeleteChecklistDialogComponent
+                delete_checklist_dialog_component_1.DeleteChecklistDialogComponent,
+                update_checklist_dialog_component_1.UpdateChecklistDialogComponent
             ],
             providers: [
                 user_service_1.UserService,

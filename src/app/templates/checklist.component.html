@@ -28,8 +28,8 @@
 
 <div class="px-content">
   <div class="page-header">
-    <h1><i class="page-header-icon ion-android-checkbox-outline"></i>{{selectedChecklistName}}</h1>
-    <button *ngIf="selectedChecklistId" (click)="editChecklistName()">Edit checklist name</button>
+    <h1><i class="page-header-icon ion-android-checkbox-outline"></i>{{selectedChecklist.name}}</h1>
+    <button *ngIf="selectedChecklist.id" (click)="showUpdateChecklistModal(selectedChecklist)">Edit checklist name</button>
     <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
       <div class="input-group">
         <span class="input-group-addon b-a-0 font-size-16"><i class="ion-search"></i></span>

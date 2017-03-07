@@ -65,11 +65,13 @@ export class ChecklistService {
   }
 
   updateChecklist(checklist : Checklist, token : string){
+      console.log("service");
+      console.log(checklist);
     let headers = new Headers({'Content-Type': 'application/json', 'token': token});
     let options = new RequestOptions({headers: headers});
 
     let body = {
-        title: checklist.name
+        name: checklist.name
     };
 
     return this.http.put('http://localhost:8084/ChecklistsAPI/api/checklists/' + checklist.id , body, options)

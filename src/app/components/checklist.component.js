@@ -22,7 +22,10 @@ var add_task_dialog_component_1 = require('./add.task.dialog.component');
 var update_task_dialog_component_1 = require('./update.task.dialog.component');
 var delete_task_dialog_component_1 = require('./delete.task.dialog.component');
 var delete_checklist_dialog_component_1 = require('./delete.checklist.dialog.component');
+var update_checklist_dialog_component_1 = require('./update.checklist.dialog.component');
 var ChecklistComponent = (function () {
+    //selectedChecklistId: string;
+    //selectedChecklistName: string;
     function ChecklistComponent(cookieService, router, userService, checklistService, taskService, dialogService) {
         this.cookieService = cookieService;
         this.router = router;
@@ -39,8 +42,10 @@ var ChecklistComponent = (function () {
     ChecklistComponent.prototype.ngOnInit = function () {
         var _this = this;
         var token = this.getCookie("checklist_token");
-        this.taskToAdd = new task_1.Task;
-        this.taskToUpdate = new task_1.Task;
+        this.taskToAdd = new task_1.Task();
+        this.taskToUpdate = new task_1.Task();
+        this.selectedChecklist = new checklist_1.Checklist();
+        this.checklistToUpdate = new checklist_1.Checklist();
         if (!token) {
             this.router.navigate(['/login']);
         }
@@ -52,7 +57,7 @@ var ChecklistComponent = (function () {
             _this.checklists = res;
         }, function (error) {
         });
-        this.taskService.getByChecklist(this.selectedChecklistId, token)
+        this.taskService.getByChecklist(this.selectedChecklist.id, token)
             .subscribe(function (res) {
             console.log('Tasks Res: ');
             console.log(res);
@@ -66,11 +71,12 @@ var ChecklistComponent = (function () {
         if (!token) {
             this.router.navigate(['/login']);
         }
-        this.selectedChecklistId = checklist.id;
-        this.selectedChecklistName = checklist.name;
+        // this.selectedChecklistId = checklist.id;
+        // this.selectedChecklistName = checklist.name;
+        this.selectedChecklist = checklist;
         console.log('Checklist selected: ');
         console.log(checklist.name);
-        this.taskService.getByChecklist(this.selectedChecklistId, token)
+        this.taskService.getByChecklist(this.selectedChecklist.id, token)
             .subscribe(function (res) {
             console.log('Tasks Res: ');
             console.log(res);
@@ -183,7 +189,7 @@ var ChecklistComponent = (function () {
         if (!token) {
             this.router.navigate(['/login']);
         }
-        this.taskService.add(this.taskToAdd, token, this.selectedChecklistId)
+        this.taskService.add(this.taskToAdd, token, this.selectedChecklist.id)
             .subscribe(function (res) {
             console.log('Task added');
             _this.tasks.push(res);
@@ -244,7 +250,6 @@ var ChecklistComponent = (function () {
                 _this.taskToAdd.name = result.name;
                 _this.taskToAdd.description = result.description;
                 _this.newTask();
-                alert('accepted: name: ' + result.name + ' description:' + result.description);
             }
             else {
             }
@@ -270,11 +275,6 @@ var ChecklistComponent = (function () {
             else {
             }
         });
-        //We can close dialog calling disposable.unsubscribe();
-        //If dialog was not closed manually close it by timeout
-        setTimeout(function () {
-            disposable.unsubscribe();
-        }, 10000);
     };
     ChecklistComponent.prototype.showDeleteTaskModal = function (task) {
         var _this = this;
@@ -316,7 +316,49 @@ var ChecklistComponent = (function () {
             }
         });
     };
+    ChecklistComponent.prototype.showUpdateChecklistModal = function (checklist) {
+        var _this = this;
+        this.checklistToUpdate = Object.assign(new checklist_1.Checklist, checklist);
+        var disposable = this.dialogService.addDialog(update_checklist_dialog_component_1.UpdateChecklistDialogComponent, {
+            title: 'Confirm title',
+            message: 'Confirm message', name: this.checklistToUpdate.name })
+            .subscribe(function (result) {
+            if (result) {
+                _this.checklistToUpdate.name = result.name;
+                console.log("Result" + result.name);
+                _this.editChecklistName();
+            }
+            else {
+            }
+        });
+    };
     ChecklistComponent.prototype.editChecklistName = function () {
+        var _this = this;
+        console.log('Checklist to update ' + this.selectedChecklist.name);
+        if (!this.selectedChecklist.id || this.selectedChecklist.id == "" || !this.selectedChecklist.name || this.selectedChecklist.name == "") {
+            return;
+        }
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        console.log('Checklist updated');
+        console.log(this.checklistToUpdate);
+        this.checklistService.updateChecklist(this.checklistToUpdate, token)
+            .subscribe(function (res) {
+            for (var i = 0; i < _this.checklists.length; i++) {
+                if (_this.checklistToUpdate.id == _this.checklists[i].id) {
+                    _this.checklists[i] = Object.assign(new checklist_1.Checklist, _this.checklistToUpdate);
+                    _this.selectedChecklist = _this.checklists[i];
+                    break;
+                }
+            }
+            _this.checklistToUpdate.id = "";
+            _this.checklistToUpdate.name = "";
+            _this.checklistToUpdate.tasks = [];
+        }, function (error) {
+            console.log('Update Checklist error');
+        });
     };
     ChecklistComponent = __decorate([
         core_1.Component({
