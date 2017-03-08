@@ -8,7 +8,7 @@
       <div class="btn-group" style="margin-top: 4px;">
         <a href="#" class="btn btn-xs btn-primary btn-outline"><i class="fa fa-user"></i></a>
         <a href="#" class="btn btn-xs btn-primary btn-outline"><i class="fa fa-cog"></i></a>
-        <a href="#" class="btn btn-xs btn-danger btn-outline"><i class="fa fa-power-off"></i></a>
+        <a class="btn btn-xs btn-danger btn-outline" (click)="logout()" ><i class="fa fa-power-off"></i></a>
       </div>
     </li>
     <input type="text" (keyup.enter)="addChecklist()" [(ngModel)]="newChecklistName" placeholder="New Checklist">
@@ -40,7 +40,8 @@
   <div class="row">
     <div class="col-md-12">
 
-      <button (click)="showAddTaskModal()">New Task</button>
+      <!--<button (click)="showAddTaskModal()">New Task</button>-->
+      <a class="btn btn-primary btn-block btn-outline" (click)="showAddTaskModal()">Create Task</a>
 
       <!-- Recent tasks -->
 
@@ -53,7 +54,7 @@
                 <tr>
                   <th>
                     <div class="widget-tasks-item">
-                      <label class="custom-control custom-checkbox">
+                      <label class="custom-control custom-checkbox" [highlight]=task.completed>
                         <input type="checkbox" class="custom-control-input" [checked]="task.completed" [(ngModel)]="task.completed" (click)= "completeTask(task)"/>
                         <span class="custom-control-indicator"></span>
                         <span class="widget-tasks-title font-size-15 font-weight-bold">{{task.name}}</span>

@@ -12,8 +12,8 @@ export class Highlight {
         this.highlightItem(this.highlight);
     }
 
-    doneColor : string = "green";
-    normalColor : string = "red";
+    doneColor : string = "black";
+    normalColor : string = "black";
 
     @HostListener('click', ['$event'])
     confirmFirst() {

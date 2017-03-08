@@ -21,6 +21,7 @@ var checklist_component_1 = require('./components/checklist.component');
 var user_service_1 = require('./services/user.service');
 var checklist_service_1 = require('./services/checklist.service');
 var task_service_1 = require('./services/task.service');
+var note_service_1 = require('./services/note.service');
 var line_through_directive_1 = require('./directives/line.through.directive');
 var highlight_directive_1 = require('./directives/highlight.directive');
 var notes_dialog_component_1 = require('./components/notes.dialog.component');
@@ -29,6 +30,8 @@ var update_task_dialog_component_1 = require('./components/update.task.dialog.co
 var delete_task_dialog_component_1 = require('./components/delete.task.dialog.component');
 var delete_checklist_dialog_component_1 = require('./components/delete.checklist.dialog.component');
 var update_checklist_dialog_component_1 = require('./components/update.checklist.dialog.component');
+var add_note_dialog_component_1 = require('./components/add.note.dialog.component');
+var show_notes_dialog_component_1 = require('./components/show.notes.dialog.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -53,7 +56,9 @@ var AppModule = (function () {
                 update_task_dialog_component_1.UpdateTaskDialogComponent,
                 delete_task_dialog_component_1.DeleteTaskDialogComponent,
                 delete_checklist_dialog_component_1.DeleteChecklistDialogComponent,
-                update_checklist_dialog_component_1.UpdateChecklistDialogComponent
+                update_checklist_dialog_component_1.UpdateChecklistDialogComponent,
+                add_note_dialog_component_1.AddNoteDialogComponent,
+                show_notes_dialog_component_1.ShowNotesDialogComponent
             ],
             entryComponents: [
                 notes_dialog_component_1.NotesDialogComponent,
@@ -61,12 +66,15 @@ var AppModule = (function () {
                 update_task_dialog_component_1.UpdateTaskDialogComponent,
                 delete_task_dialog_component_1.DeleteTaskDialogComponent,
                 delete_checklist_dialog_component_1.DeleteChecklistDialogComponent,
-                update_checklist_dialog_component_1.UpdateChecklistDialogComponent
+                update_checklist_dialog_component_1.UpdateChecklistDialogComponent,
+                add_note_dialog_component_1.AddNoteDialogComponent,
+                show_notes_dialog_component_1.ShowNotesDialogComponent
             ],
             providers: [
                 user_service_1.UserService,
                 checklist_service_1.ChecklistService,
-                task_service_1.TaskService
+                task_service_1.TaskService,
+                note_service_1.NoteService
             ],
             bootstrap: [app_component_1.AppComponent]
         }), 

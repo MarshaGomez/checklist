@@ -14,6 +14,7 @@ import { ChecklistComponent } from './components/checklist.component';
 import { UserService } from './services/user.service';
 import { ChecklistService } from './services/checklist.service';
 import { TaskService } from './services/task.service';
+import { NoteService } from './services/note.service';
 import { LineThroughDirective } from './directives/line.through.directive';
 import { Highlight } from './directives/highlight.directive';
 import { NotesDialogComponent } from './components/notes.dialog.component';
@@ -22,6 +23,8 @@ import { UpdateTaskDialogComponent } from './components/update.task.dialog.compo
 import { DeleteTaskDialogComponent } from './components/delete.task.dialog.component';
 import { DeleteChecklistDialogComponent } from './components/delete.checklist.dialog.component';
 import { UpdateChecklistDialogComponent } from './components/update.checklist.dialog.component';
+import { AddNoteDialogComponent } from './components/add.note.dialog.component';
+import { ShowNotesDialogComponent } from './components/show.notes.dialog.component';
 
 @NgModule({
   imports:      [ 
@@ -43,7 +46,9 @@ import { UpdateChecklistDialogComponent } from './components/update.checklist.di
     UpdateTaskDialogComponent,
     DeleteTaskDialogComponent,
     DeleteChecklistDialogComponent,
-    UpdateChecklistDialogComponent
+    UpdateChecklistDialogComponent,
+    AddNoteDialogComponent,
+    ShowNotesDialogComponent
     ],
   entryComponents: [
     NotesDialogComponent,
@@ -51,12 +56,15 @@ import { UpdateChecklistDialogComponent } from './components/update.checklist.di
     UpdateTaskDialogComponent,
     DeleteTaskDialogComponent,
     DeleteChecklistDialogComponent,
-    UpdateChecklistDialogComponent
+    UpdateChecklistDialogComponent,
+    AddNoteDialogComponent,
+    ShowNotesDialogComponent
   ],
   providers: [
     UserService,
     ChecklistService,
-    TaskService
+    TaskService,
+    NoteService
   ],
   bootstrap:    [ AppComponent ]
 })

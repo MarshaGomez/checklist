@@ -264,8 +264,10 @@ var ChecklistComponent = (function () {
         var _this = this;
         this.taskToUpdate = Object.assign(new task_1.Task, task);
         var disposable = this.dialogService.addDialog(update_task_dialog_component_1.UpdateTaskDialogComponent, {
-            title: 'Confirm title',
-            message: 'Confirm message', name: this.taskToUpdate.name, description: this.taskToUpdate.description })
+            title: 'Task Information',
+            taskId: this.taskToUpdate.id,
+            name: this.taskToUpdate.name,
+            description: this.taskToUpdate.description })
             .subscribe(function (result) {
             if (result) {
                 _this.taskToUpdate.name = result.name;

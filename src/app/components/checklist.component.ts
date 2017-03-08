@@ -332,8 +332,10 @@ export class ChecklistComponent {
   showUpdateTaskModal(task:Task) {
       this.taskToUpdate = Object.assign(new Task, task);
       let disposable = this.dialogService.addDialog(UpdateTaskDialogComponent, {
-          title:'Confirm title', 
-          message:'Confirm message', name:this.taskToUpdate.name, description:this.taskToUpdate.description })
+          title:'Task Information',
+          taskId: this.taskToUpdate.id, 
+          name:this.taskToUpdate.name, 
+          description:this.taskToUpdate.description })
           
           .subscribe((result)=>{
               if(result){

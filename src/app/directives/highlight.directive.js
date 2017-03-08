@@ -13,8 +13,8 @@ var Highlight = (function () {
     function Highlight(el, renderer) {
         this.el = el;
         this.renderer = renderer;
-        this.doneColor = "green";
-        this.normalColor = "red";
+        this.doneColor = "black";
+        this.normalColor = "black";
     }
     Highlight.prototype.ngOnInit = function () {
         // Use renderer to render the emelemt with styles
