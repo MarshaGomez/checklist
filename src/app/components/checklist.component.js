@@ -48,18 +48,13 @@ var ChecklistComponent = (function () {
         if (!token) {
             this.router.navigate(['/login']);
         }
-        console.log('Token3: ' + token);
         this.checklistService.getByOwner(token)
             .subscribe(function (res) {
-            console.log('Checklists Res: ');
-            console.log(res);
             _this.checklists = res;
         }, function (error) {
         });
         this.taskService.getByChecklist(this.selectedChecklist.id, token)
             .subscribe(function (res) {
-            console.log('Tasks Res: ');
-            console.log(res);
             _this.tasks = res;
         }, function (error) {
         });
@@ -70,11 +65,7 @@ var ChecklistComponent = (function () {
         if (!token) {
             this.router.navigate(['/login']);
         }
-        // this.selectedChecklistId = checklist.id;
-        // this.selectedChecklistName = checklist.name;
         this.selectedChecklist = checklist;
-        console.log('Checklist selected: ');
-        console.log(checklist.name);
         this.taskService.getByChecklist(this.selectedChecklist.id, token)
             .subscribe(function (res) {
             console.log('Tasks Res: ');
@@ -265,6 +256,7 @@ var ChecklistComponent = (function () {
         this.taskToUpdate = Object.assign(new task_1.Task, task);
         var disposable = this.dialogService.addDialog(update_task_dialog_component_1.UpdateTaskDialogComponent, {
             title: 'Task Information',
+            task: this.taskToUpdate,
             taskId: this.taskToUpdate.id,
             name: this.taskToUpdate.name,
             description: this.taskToUpdate.description })
@@ -318,7 +310,6 @@ var ChecklistComponent = (function () {
     };
     ChecklistComponent.prototype.editChecklistName = function () {
         var _this = this;
-        console.log('Checklist to update ' + this.selectedChecklist.name);
         if (!this.selectedChecklist.id || this.selectedChecklist.id == "" || !this.selectedChecklist.name || this.selectedChecklist.name == "") {
             return;
         }
@@ -326,8 +317,6 @@ var ChecklistComponent = (function () {
         if (!token) {
             this.router.navigate(['/login']);
         }
-        console.log('Checklist updated');
-        console.log(this.checklistToUpdate);
         this.checklistService.updateChecklist(this.checklistToUpdate, token)
             .subscribe(function (res) {
             for (var i = 0; i < _this.checklists.length; i++) {

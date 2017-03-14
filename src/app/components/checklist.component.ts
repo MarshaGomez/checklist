@@ -63,13 +63,9 @@ export class ChecklistComponent {
         this.router.navigate(['/login']);
       }
 
-      console.log('Token3: ' + token);
-
       this.checklistService.getByOwner(token)
         .subscribe(
           res => {
-            console.log('Checklists Res: ');
-            console.log(res);
             this.checklists = <any>res;
           },
           error => {
@@ -80,8 +76,6 @@ export class ChecklistComponent {
       this.taskService.getByChecklist(this.selectedChecklist.id, token)
         .subscribe(
           res => {
-            console.log('Tasks Res: ');
-            console.log(res);
             this.tasks = <any>res;
           },
           error => {
@@ -95,11 +89,7 @@ export class ChecklistComponent {
     if(!token){
       this.router.navigate(['/login']);
     }
-    // this.selectedChecklistId = checklist.id;
-    // this.selectedChecklistName = checklist.name;
     this.selectedChecklist = checklist;
-    console.log('Checklist selected: ');
-    console.log(checklist.name);
     this.taskService.getByChecklist(this.selectedChecklist.id, token)
         .subscribe(
           res => {
@@ -335,6 +325,7 @@ export class ChecklistComponent {
       this.taskToUpdate = Object.assign(new Task, task);
       let disposable = this.dialogService.addDialog(UpdateTaskDialogComponent, {
           title:'Task Information',
+          task: this.taskToUpdate,
           taskId: this.taskToUpdate.id, 
           name:this.taskToUpdate.name, 
           description:this.taskToUpdate.description })
@@ -388,7 +379,7 @@ export class ChecklistComponent {
   }
 
   editChecklistName(){
-      console.log('Checklist to update ' + this.selectedChecklist.name);
+    
     if(!this.selectedChecklist.id || this.selectedChecklist.id == "" || !this.selectedChecklist.name || this.selectedChecklist.name == "" ){
       return;
     }
@@ -396,8 +387,7 @@ export class ChecklistComponent {
     if(!token){
       this.router.navigate(['/login']);
     }
-    console.log('Checklist updated');
-    console.log(this.checklistToUpdate);
+    
     this.checklistService.updateChecklist(this.checklistToUpdate, token)
     .subscribe(
             res => {
