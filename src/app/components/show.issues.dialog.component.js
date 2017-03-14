@@ -16,8 +16,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ng2_bootstrap_modal_1 = require('ng2-bootstrap-modal');
 var router_1 = require('@angular/router');
+var issue_1 = require('../entities/issue');
 var core_2 = require('angular2-cookie/core');
 var issue_service_1 = require('../services/issue.service');
+var update_issue_dialog_component_1 = require('./update.issue.dialog.component');
 var ShowIssuesDialogComponent = (function (_super) {
     __extends(ShowIssuesDialogComponent, _super);
     // notes: any[] = [];
@@ -82,10 +84,49 @@ var ShowIssuesDialogComponent = (function (_super) {
             console.log('resolved issue error');
         });
     };
+    ShowIssuesDialogComponent.prototype.showUpdateIssueModal = function (issue) {
+        var _this = this;
+        this.issueToUpdate = Object.assign(new issue_1.Issue, issue);
+        var disposable = this.dialogService.addDialog(update_issue_dialog_component_1.UpdateIssueDialogComponent, {
+            title: 'Update Issue', name: this.issueToUpdate.name, description: this.issueToUpdate.description })
+            .subscribe(function (result) {
+            if (result) {
+                _this.issueToUpdate.name = result.name;
+                _this.issueToUpdate.description = result.description;
+                _this.updateIssue();
+            }
+            else {
+            }
+        });
+    };
+    ShowIssuesDialogComponent.prototype.updateIssue = function () {
+        var _this = this;
+        if (!this.issueToUpdate.name || this.issueToUpdate.name == "" || !this.issueToUpdate.description || this.issueToUpdate.description == "") {
+            return;
+        }
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.issueService.update(this.issueToUpdate, token)
+            .subscribe(function (res) {
+            console.log('Issue updated');
+            console.log(res);
+            for (var i = 0; i < _this.issues.length; i++) {
+                if (_this.issueToUpdate.id == _this.issues[i].id) {
+                    _this.issues[i] = Object.assign(new issue_1.Issue, _this.issueToUpdate);
+                    break;
+                }
+            }
+            _this.issueToUpdate = new issue_1.Issue();
+        }, function (error) {
+            console.log('Update issue error');
+        });
+    };
     ShowIssuesDialogComponent = __decorate([
         core_1.Component({
             selector: 'confirm',
-            template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Name</th>\n                                <th>Description</th>\n                                <th>Resolved</th>\n                                <th></th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let issue of issues\">\n                                <td>\n                                    {{issue.name}}\n                                </td>\n                                <td>\n                                    {{issue.description}}\n                                </td>\n                                <td>\n                                    <input type=\"checkbox\" [checked]=\"issue.resolved\" [(ngModel)]=\"issue.resolved\" (click)= \"resolveIssue(issue)\"/>\n                                </td>\n                                <td>\n                                    <button type=\"button\" (click)=\"deleteIssue(issue)\">Delete</button>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                </div>\n                </div>",
+            template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Name</th>\n                                <th>Description</th>\n                                <th>Resolved</th>\n                                <th></th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let issue of issues\">\n                                <td>\n                                    {{issue.name}}\n                                </td>\n                                <td>\n                                    {{issue.description}}\n                                </td>\n                                <td>\n                                    <input type=\"checkbox\" [checked]=\"issue.resolved\" [(ngModel)]=\"issue.resolved\" (click)= \"resolveIssue(issue)\"/>\n                                </td>\n                                <td>\n                                    <button type=\"button\" (click)=\"deleteIssue(issue)\">Delete</button>\n                                </td>\n                                <td>\n                                    <button type=\"button\" (click)=\"showUpdateIssueModal(issue)\">Update</button>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                </div>\n                </div>",
             providers: [core_2.CookieService]
         }), 
         __metadata('design:paramtypes', [core_2.CookieService, router_1.Router, ng2_bootstrap_modal_1.DialogService, issue_service_1.IssueService])

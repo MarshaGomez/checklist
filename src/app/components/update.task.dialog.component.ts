@@ -13,6 +13,7 @@ import { NoteService } from '../services/note.service';
 import { IssueService } from '../services/issue.service';
 import { ShowIssuesDialogComponent } from './show.issues.dialog.component';
 import { AddIssueDialogComponent } from './add.issue.dialog.component';
+
  
 @Component({  
     selector: 'confirm',
@@ -63,7 +64,6 @@ export class UpdateTaskDialogComponent extends DialogComponent {
         private router: Router,
         private noteService: NoteService,
         private issueService: IssueService) {
-
         super(dialogService);
     }
 
@@ -109,10 +109,8 @@ export class UpdateTaskDialogComponent extends DialogComponent {
                     .subscribe((result)=>{
                         if(result){
 
-                        }else {
-                            
+                        }else {   
                         }
-                        
                     });
             },
             error => {

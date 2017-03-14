@@ -63,4 +63,18 @@ export class NoteService {
         .catch(this.handleError);
   }
 
+  update(note: Note, token: string ){
+      let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+    let options = new RequestOptions({headers: headers});
+
+    let body = {
+        name: note.name,
+        text: note.text
+    };
+
+    return this.http.put('http://localhost:8084/ChecklistsAPI/api/notes/' + note.id , body, options)
+        .map(this.extractData)
+        .catch(this.handleError);  
+  }
+
 }

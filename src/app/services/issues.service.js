@@ -13,24 +13,24 @@ var http_1 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/catch');
-var NoteService = (function () {
-    function NoteService(http) {
+var IssuesService = (function () {
+    function IssuesService(http) {
         this.http = http;
     }
-    NoteService.prototype.getByEntity = function (entityId, entity, token) {
+    IssuesService.prototype.getByEntity = function (entityId, entity, token) {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.get('http://localhost:8084/ChecklistsAPI/api/notes/' + entity + '/' + entityId, options)
+        return this.http.get('http://localhost:8084/ChecklistsAPI/api/tasks/' + entity + '/' + entityId, options)
             .map(this.extractData)
             .catch(this.handleError);
     };
-    NoteService.prototype.extractData = function (res) {
+    IssuesService.prototype.extractData = function (res) {
         console.log('Server Response: ');
         console.log(res);
         var body = JSON.parse(res._body);
         return body || {};
     };
-    NoteService.prototype.handleError = function (error) {
+    IssuesService.prototype.handleError = function (error) {
         console.log('ERROR!');
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
@@ -39,44 +39,23 @@ var NoteService = (function () {
         console.error(errMsg); // log to console instead
         return Observable_1.Observable.throw(errMsg);
     };
-    NoteService.prototype.add = function (note, entityId, entity, token) {
+    IssuesService.prototype.add = function (issue, taskId, token) {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
         var options = new http_1.RequestOptions({ headers: headers });
         var body = {
-            name: note.name,
-            text: note.text
+            name: issue.name,
+            description: issue.description,
+            resolved: issue.resolved
         };
-        return this.http.post('http://localhost:8084/ChecklistsAPI/api/notes/' + entity + '/' + entityId, body, options)
+        return this.http.post('http://localhost:8084/ChecklistsAPI/api/issues/tasks/' + taskId, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     };
-    NoteService.prototype.delete = function (noteId, token) {
-        var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
-        var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.delete('http://localhost:8084/ChecklistsAPI/api/notes/' + noteId, options)
-            .map(function (res) {
-            console.log('Server Response: ');
-            console.log(res);
-            return res || {};
-        })
-            .catch(this.handleError);
-    };
-    NoteService.prototype.update = function (note, token) {
-        var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
-        var options = new http_1.RequestOptions({ headers: headers });
-        var body = {
-            name: note.name,
-            text: note.text
-        };
-        return this.http.put('http://localhost:8084/ChecklistsAPI/api/notes/' + note.id, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
-    };
-    NoteService = __decorate([
+    IssuesService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
-    ], NoteService);
-    return NoteService;
+    ], IssuesService);
+    return IssuesService;
 }());
-exports.NoteService = NoteService;
-//# sourceMappingURL=note.service.js.map
+exports.IssuesService = IssuesService;
+//# sourceMappingURL=issues.service.js.map

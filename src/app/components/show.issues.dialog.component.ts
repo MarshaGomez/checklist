@@ -5,6 +5,7 @@ import { Issue } from '../entities/issue';
 import { CookieService} from 'angular2-cookie/core';
 import { NoteService } from '../services/note.service';
 import { IssueService } from '../services/issue.service';
+import { UpdateIssueDialogComponent } from './update.issue.dialog.component';
  
 @Component({  
     selector: 'confirm',
@@ -37,6 +38,9 @@ import { IssueService } from '../services/issue.service';
                                 <td>
                                     <button type="button" (click)="deleteIssue(issue)">Delete</button>
                                 </td>
+                                <td>
+                                    <button type="button" (click)="showUpdateIssueModal(issue)">Update</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -51,6 +55,7 @@ export class ShowIssuesDialogComponent extends DialogComponent {
 
     obj: {};
     issues: any[] = [];
+    issueToUpdate: Issue;
 
     // notes: any[] = [];
 
@@ -58,7 +63,6 @@ export class ShowIssuesDialogComponent extends DialogComponent {
         private router: Router,
         dialogService: DialogService,
         private issueService: IssueService) {
-
         super(dialogService);
     }
 
@@ -130,4 +134,46 @@ export class ShowIssuesDialogComponent extends DialogComponent {
             }
         );
     }
+
+     showUpdateIssueModal(issue: Issue){
+        this.issueToUpdate = Object.assign(new Issue, issue);
+        let disposable = this.dialogService.addDialog(UpdateIssueDialogComponent, {
+          title:'Update Issue', name: this.issueToUpdate.name, description: this.issueToUpdate.description  })
+          .subscribe((result)=>{
+              if(result){
+                this.issueToUpdate.name = result.name;
+                this.issueToUpdate.description = result.description;
+                this.updateIssue();
+              }else {
+              }
+          });
+    }
+
+    updateIssue(){
+        if(!this.issueToUpdate.name || this.issueToUpdate.name == "" || !this.issueToUpdate.description || this.issueToUpdate.description == "" ){
+            return;
+        }
+        let token = this.getCookie("checklist_token");
+        if(!token){
+            this.router.navigate(['/login']);
+        }
+        this.issueService.update(this.issueToUpdate, token)
+            .subscribe(
+                res => {
+                console.log('Issue updated');
+                console.log(res);
+                for(var i = 0; i < this.issues.length; i++) {
+                if(this.issueToUpdate.id == this.issues[i].id){
+                  this.issues[i] = Object.assign(new Issue, this.issueToUpdate);
+                  break;
+                }
+              }
+                this.issueToUpdate = new Issue();
+            },
+            error => {
+                console.log('Update issue error');
+            }
+        );
+    }
 }
+

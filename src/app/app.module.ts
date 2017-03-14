@@ -28,6 +28,8 @@ import { AddNoteDialogComponent } from './components/add.note.dialog.component';
 import { ShowNotesDialogComponent } from './components/show.notes.dialog.component';
 import { ShowIssuesDialogComponent } from './components/show.issues.dialog.component';
 import { AddIssueDialogComponent } from './components/add.issue.dialog.component';
+import { UpdateNoteDialogComponent } from './components/update.note.dialog.component';
+import { UpdateIssueDialogComponent } from './components/update.issue.dialog.component';
 
 @NgModule({
   imports:      [ 
@@ -53,7 +55,9 @@ import { AddIssueDialogComponent } from './components/add.issue.dialog.component
     AddNoteDialogComponent,
     ShowNotesDialogComponent,
     ShowIssuesDialogComponent,
-    AddIssueDialogComponent
+    AddIssueDialogComponent,
+    UpdateNoteDialogComponent,
+    UpdateIssueDialogComponent
     ],
   entryComponents: [
     NotesDialogComponent,
@@ -65,7 +69,9 @@ import { AddIssueDialogComponent } from './components/add.issue.dialog.component
     AddNoteDialogComponent,
     ShowNotesDialogComponent,
     ShowIssuesDialogComponent,
-    AddIssueDialogComponent
+    AddIssueDialogComponent,
+    UpdateNoteDialogComponent,
+    UpdateIssueDialogComponent
   ],
   providers: [
     UserService,
