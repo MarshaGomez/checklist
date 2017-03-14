@@ -15,17 +15,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ng2_bootstrap_modal_1 = require('ng2-bootstrap-modal');
+var router_1 = require('@angular/router');
+var core_2 = require('angular2-cookie/core');
+var note_service_1 = require('../services/note.service');
 var ShowNotesDialogComponent = (function (_super) {
     __extends(ShowNotesDialogComponent, _super);
     // notes: any[] = [];
-    function ShowNotesDialogComponent(dialogService) {
+    function ShowNotesDialogComponent(cookieService, router, dialogService, noteService) {
         _super.call(this, dialogService);
+        this.cookieService = cookieService;
+        this.router = router;
+        this.noteService = noteService;
         this.notes = [];
     }
     ShowNotesDialogComponent.prototype.ngOnInit = function () {
         // this.notes = noteService.getByEntity(this.taskId, 'task', this.token);
         console.log('Notes 2: ');
         console.log(this.notes);
+    };
+    ShowNotesDialogComponent.prototype.getCookie = function (key) {
+        return this.cookieService.get(key);
     };
     ShowNotesDialogComponent.prototype.confirm = function () {
         this.obj = {
@@ -35,12 +44,37 @@ var ShowNotesDialogComponent = (function (_super) {
         this.result = this.obj;
         this.close();
     };
+    ShowNotesDialogComponent.prototype.deleteNote = function (note) {
+        var _this = this;
+        if (!note || !note.id) {
+            return;
+        }
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.noteService.delete(note.id, token)
+            .subscribe(function (res) {
+            console.log('Note Removed');
+            console.log(res);
+            for (var i = 0; i < _this.notes.length; i++) {
+                var noteToDelete = _this.notes[i];
+                if (noteToDelete.id == note.id) {
+                    _this.notes.splice(i, 1);
+                    break;
+                }
+            }
+        }, function (error) {
+            console.log('Delete error');
+        });
+    };
     ShowNotesDialogComponent = __decorate([
         core_1.Component({
             selector: 'confirm',
-            template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Name</th>\n                                <th>Text</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let note of notes\">\n                                <td>\n                                    {{note.name}}\n                                </td>\n                                <td>\n                                    {{note.text}}\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                </div>\n                </div>"
+            template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Name</th>\n                                <th>Text</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let note of notes\">\n                                <td>\n                                    {{note.name}}\n                                </td>\n                                <td>\n                                    {{note.text}}\n                                </td>\n                                <td>\n                                    <button type=\"button\" (click)=\"deleteNote(note)\">Delete</button>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                </div>\n                </div>",
+            providers: [core_2.CookieService]
         }), 
-        __metadata('design:paramtypes', [ng2_bootstrap_modal_1.DialogService])
+        __metadata('design:paramtypes', [core_2.CookieService, router_1.Router, ng2_bootstrap_modal_1.DialogService, note_service_1.NoteService])
     ], ShowNotesDialogComponent);
     return ShowNotesDialogComponent;
 }(ng2_bootstrap_modal_1.DialogComponent));

@@ -22,14 +22,18 @@ var show_notes_dialog_component_1 = require('./show.notes.dialog.component');
 var note_1 = require('../entities/note');
 var issue_1 = require('../entities/issue');
 var note_service_1 = require('../services/note.service');
+var issue_service_1 = require('../services/issue.service');
+var show_issues_dialog_component_1 = require('./show.issues.dialog.component');
+var add_issue_dialog_component_1 = require('./add.issue.dialog.component');
 var UpdateTaskDialogComponent = (function (_super) {
     __extends(UpdateTaskDialogComponent, _super);
     //currentTask: Task;
-    function UpdateTaskDialogComponent(dialogService, cookieService, router, noteService) {
+    function UpdateTaskDialogComponent(dialogService, cookieService, router, noteService, issueService) {
         _super.call(this, dialogService);
         this.cookieService = cookieService;
         this.router = router;
         this.noteService = noteService;
+        this.issueService = issueService;
     }
     UpdateTaskDialogComponent.prototype.ngOnInit = function () {
         this.noteToAdd = new note_1.Note();
@@ -71,7 +75,7 @@ var UpdateTaskDialogComponent = (function (_super) {
                 }
             });
         }, function (error) {
-            console.log('Add note error');
+            console.log('Get notes error');
         });
     };
     UpdateTaskDialogComponent.prototype.showAddNoteModal = function () {
@@ -113,27 +117,65 @@ var UpdateTaskDialogComponent = (function (_super) {
         });
     };
     UpdateTaskDialogComponent.prototype.showIssuesModal = function () {
+        var _this = this;
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        var issues = [];
+        this.issueService.getByTask(this.taskId, token)
+            .subscribe(function (res) {
+            issues = res;
+            console.log('Issues by task: ');
+            console.log(issues);
+            var disposable = _this.dialogService.addDialog(show_issues_dialog_component_1.ShowIssuesDialogComponent, {
+                title: 'Issues',
+                issues: issues })
+                .subscribe(function (result) {
+                if (result) {
+                }
+                else {
+                }
+            });
+        }, function (error) {
+            console.log('Get issues error');
+        });
     };
     UpdateTaskDialogComponent.prototype.showAddIssueModal = function () {
-        // if(!this.issueToAdd.name || this.issueToAdd.name == "" || !this.issueToAdd.description || this.issueToAdd.description == "" ){
-        //     return;
-        // }
-        // let token = this.getCookie("checklist_token");
-        // if(!token){
-        //     this.router.navigate(['/login']);
-        // }
-        // this.issueService.add(this.noteToAdd, this.taskId, 'task', token)
-        //     .subscribe(
-        //         res => {
-        //         console.log('Note created');
-        //         console.log(res);
-        //         //this.notes.push(res);
-        //         this.noteToAdd = new Note();
-        //     },
-        //     error => {
-        //         console.log('Add note error');
-        //     }
-        // );
+        var _this = this;
+        var disposable = this.dialogService.addDialog(add_issue_dialog_component_1.AddIssueDialogComponent, {
+            title: 'New Issue' })
+            .subscribe(function (result) {
+            if (result) {
+                console.log("Issue test");
+                console.log(result.name);
+                _this.issueToAdd.name = result.name;
+                _this.issueToAdd.description = result.description;
+                _this.issueToAdd.resolved = false;
+                _this.addIssue();
+            }
+            else {
+            }
+        });
+    };
+    UpdateTaskDialogComponent.prototype.addIssue = function () {
+        var _this = this;
+        if (!this.issueToAdd.name || this.issueToAdd.name == "" || !this.issueToAdd.description || this.issueToAdd.description == "") {
+            return;
+        }
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.issueService.add(this.issueToAdd, this.taskId, token)
+            .subscribe(function (res) {
+            console.log('Issue created');
+            console.log(res);
+            //this.notes.push(res);
+            _this.issueToAdd = new issue_1.Issue();
+        }, function (error) {
+            console.log('Add issue error');
+        });
     };
     UpdateTaskDialogComponent = __decorate([
         core_1.Component({
@@ -141,7 +183,7 @@ var UpdateTaskDialogComponent = (function (_super) {
             template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <input type=\"text\" [(ngModel)]=\"name\" placeholder=\"task name\">\n                    <input type=\"text\" [(ngModel)]=\"description\" placeholder=\"task description\">\n\n                    <div>\n                        <br/>\n                        <label>Notes:</label>\n                        <button type=\"button\" (click)=\"showNotesModal()\">Show</button>\n                        <button type=\"button\" (click)=\"showAddNoteModal()\">Add</button>\n                    </div>\n\n                    <div>\n                        <br/>\n                        <label>Issues:</label>\n                        <button type=\"button\" (click)=\"showIssuesModal()\">Show</button>\n                        <button type=\"button\" (click)=\"showAddIssueModal()\">Add</button>\n                    </div>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                    <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n                </div>\n                </div>",
             providers: [core_2.CookieService]
         }), 
-        __metadata('design:paramtypes', [ng2_bootstrap_modal_1.DialogService, core_2.CookieService, router_1.Router, note_service_1.NoteService])
+        __metadata('design:paramtypes', [ng2_bootstrap_modal_1.DialogService, core_2.CookieService, router_1.Router, note_service_1.NoteService, issue_service_1.IssueService])
     ], UpdateTaskDialogComponent);
     return UpdateTaskDialogComponent;
 }(ng2_bootstrap_modal_1.DialogComponent));

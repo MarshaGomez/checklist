@@ -4,17 +4,17 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Note } from '../entities/note';
+import { Issue } from '../entities/issue';
 
 @Injectable()
-export class NoteService {
+export class IssueService {
 
   constructor(private http: Http) { }
 
-  getByEntity(entityId: string, entity: string, token:String){
+  getByTask(taskId: string, token:String){
     let headers = new Headers({'Content-Type': 'application/json', 'token': token});
     let options = new RequestOptions({headers: headers});
-    return this.http.get('http://localhost:8084/ChecklistsAPI/api/notes/' + entity + '/' + entityId, options)
+    return this.http.get('http://localhost:8084/ChecklistsAPI/api/issues/tasks/' + taskId, options)
         .map(this.extractData)
         .catch(this.handleError);
   }
@@ -36,24 +36,37 @@ export class NoteService {
         return Observable.throw(errMsg);
   }
 
-  add(note: Note, entityId: string, entity: string, token:String){
-    let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+  add(issue: Issue, taskId: String, token:String){
+      let headers = new Headers({'Content-Type': 'application/json', 'token': token});
     let options = new RequestOptions({headers: headers});
 
     let body = {
-        name: note.name,
-        text: note.text
+        name: issue.name,
+        description: issue.description,
+        resolved: issue.resolved
     };
-
-    return this.http.post('http://localhost:8084/ChecklistsAPI/api/notes/' + entity + '/' + entityId, body, options)
+    return this.http.post('http://localhost:8084/ChecklistsAPI/api/issues/tasks/' + taskId, body, options)
         .map(this.extractData)
         .catch(this.handleError);  
   }
 
-  delete(noteId: string, token: string){
+  delete(issueId: string, token: string){
     let headers = new Headers({'Content-Type': 'application/json', 'token': token});
     let options = new RequestOptions({headers: headers});
-    return this.http.delete('http://localhost:8084/ChecklistsAPI/api/notes/' + noteId, options)
+    return this.http.delete('http://localhost:8084/ChecklistsAPI/api/issues/' + issueId, options)
+        .map(
+            res => {
+                console.log('Server Response: ');
+                console.log(res);
+                return res || {};
+            })
+        .catch(this.handleError);
+  }
+
+  resolve(issueId: string, token: string, resolved: boolean){
+    let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+    let options = new RequestOptions({headers: headers});
+    return this.http.put('http://localhost:8084/ChecklistsAPI/api/issues/' + issueId + '/resolved?resolved=' + !resolved, options)
         .map(
             res => {
                 console.log('Server Response: ');

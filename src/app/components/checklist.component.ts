@@ -16,6 +16,7 @@ import { DeleteTaskDialogComponent } from './delete.task.dialog.component';
 import { DeleteChecklistDialogComponent } from './delete.checklist.dialog.component';
 import { UpdateChecklistDialogComponent } from './update.checklist.dialog.component';
 
+
 @Component({
   moduleId: module.id,
   selector: 'checklist',
@@ -228,6 +229,7 @@ export class ChecklistComponent {
       .subscribe(
         res => {
           console.log('Checklist added');
+          this.selectedChecklist = res;
           this.checklists.push(res);
           this.newChecklistName = "";
         },
@@ -310,8 +312,8 @@ export class ChecklistComponent {
 
   showAddTaskModal() {
       let disposable = this.dialogService.addDialog(AddTaskDialogComponent, {
-          title:'Confirm title', 
-          message:'Confirm message'})
+          title:'Add task', 
+          message:'Enter name and description'})
           .subscribe((result)=>{
               if(result){
                 this.taskToAdd.name = result.name;
@@ -324,9 +326,9 @@ export class ChecklistComponent {
           });
       //We can close dialog calling disposable.unsubscribe();
       //If dialog was not closed manually close it by timeout
-      setTimeout(()=>{
-          disposable.unsubscribe();
-      },10000);
+      // setTimeout(()=>{
+      //     disposable.unsubscribe();
+      // },10000);
   }
 
   showUpdateTaskModal(task:Task) {
@@ -350,8 +352,8 @@ export class ChecklistComponent {
 
   showDeleteTaskModal(task: Task){
     let disposable = this.dialogService.addDialog(DeleteTaskDialogComponent, {
-          title:'Confirm title', 
-          message:'Confirm message', name:this.taskToUpdate.name, description:this.taskToUpdate.description })
+          title:'Delete task', 
+          message:'Are you sure you want to the task "' + task.name + '"', name:this.taskToUpdate.name, description:this.taskToUpdate.description })
           .subscribe((result)=>{
               if(result){
                 this.deleteTask(task);
@@ -359,30 +361,10 @@ export class ChecklistComponent {
           });
   }
 
-  showTestModal() {
-      let disposable = this.dialogService.addDialog(NotesDialogComponent, {
-          title:'Confirm title', 
-          message:'Confirm message'})
-          .subscribe((result)=>{
-
-              if(result){
-                alert('accepted: name: ' + result.name + ' description:' + result.description);
-              }else {
-                  alert('declined');
-              }
-              
-          });
-      //We can close dialog calling disposable.unsubscribe();
-      //If dialog was not closed manually close it by timeout
-      setTimeout(()=>{
-          disposable.unsubscribe();
-      },10000);
-  }
-
   showDeleteCheckListModal(checklist: Checklist){
     let disposable = this.dialogService.addDialog(DeleteChecklistDialogComponent, {
-          title:'Confirm title', 
-          message:'Confirm message'})
+          title:'Delete checklist', 
+          message:'Are you sure you want to delete the checklist "' + checklist.name + '"'})
           .subscribe((result)=>{
               if(result){
                 this.deleteChecklist(checklist);
@@ -393,8 +375,8 @@ export class ChecklistComponent {
   showUpdateChecklistModal(checklist: Checklist) {
       this.checklistToUpdate = Object.assign(new Checklist, checklist);
       let disposable = this.dialogService.addDialog(UpdateChecklistDialogComponent, {
-          title:'Confirm title', 
-          message:'Confirm message', name:this.checklistToUpdate.name})
+          title:'Update checklist', 
+          message:'Enter checklist name', name:this.checklistToUpdate.name})
           .subscribe((result)=>{
               if(result){
                 this.checklistToUpdate.name = result.name;

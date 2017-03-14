@@ -17,7 +17,6 @@ var checklist_service_1 = require('../services/checklist.service');
 var task_service_1 = require('../services/task.service');
 var checklist_1 = require('../entities/checklist');
 var task_1 = require('../entities/task');
-var notes_dialog_component_1 = require('./notes.dialog.component');
 var add_task_dialog_component_1 = require('./add.task.dialog.component');
 var update_task_dialog_component_1 = require('./update.task.dialog.component');
 var delete_task_dialog_component_1 = require('./delete.task.dialog.component');
@@ -174,6 +173,7 @@ var ChecklistComponent = (function () {
         this.checklistService.add(newChecklist, token)
             .subscribe(function (res) {
             console.log('Checklist added');
+            _this.selectedChecklist = res;
             _this.checklists.push(res);
             _this.newChecklistName = "";
         }, function (error) {
@@ -243,8 +243,8 @@ var ChecklistComponent = (function () {
     ChecklistComponent.prototype.showAddTaskModal = function () {
         var _this = this;
         var disposable = this.dialogService.addDialog(add_task_dialog_component_1.AddTaskDialogComponent, {
-            title: 'Confirm title',
-            message: 'Confirm message' })
+            title: 'Add task',
+            message: 'Enter name and description' })
             .subscribe(function (result) {
             if (result) {
                 _this.taskToAdd.name = result.name;
@@ -256,9 +256,9 @@ var ChecklistComponent = (function () {
         });
         //We can close dialog calling disposable.unsubscribe();
         //If dialog was not closed manually close it by timeout
-        setTimeout(function () {
-            disposable.unsubscribe();
-        }, 10000);
+        // setTimeout(()=>{
+        //     disposable.unsubscribe();
+        // },10000);
     };
     ChecklistComponent.prototype.showUpdateTaskModal = function (task) {
         var _this = this;
@@ -281,37 +281,19 @@ var ChecklistComponent = (function () {
     ChecklistComponent.prototype.showDeleteTaskModal = function (task) {
         var _this = this;
         var disposable = this.dialogService.addDialog(delete_task_dialog_component_1.DeleteTaskDialogComponent, {
-            title: 'Confirm title',
-            message: 'Confirm message', name: this.taskToUpdate.name, description: this.taskToUpdate.description })
+            title: 'Delete task',
+            message: 'Are you sure you want to the task "' + task.name + '"', name: this.taskToUpdate.name, description: this.taskToUpdate.description })
             .subscribe(function (result) {
             if (result) {
                 _this.deleteTask(task);
             }
         });
     };
-    ChecklistComponent.prototype.showTestModal = function () {
-        var disposable = this.dialogService.addDialog(notes_dialog_component_1.NotesDialogComponent, {
-            title: 'Confirm title',
-            message: 'Confirm message' })
-            .subscribe(function (result) {
-            if (result) {
-                alert('accepted: name: ' + result.name + ' description:' + result.description);
-            }
-            else {
-                alert('declined');
-            }
-        });
-        //We can close dialog calling disposable.unsubscribe();
-        //If dialog was not closed manually close it by timeout
-        setTimeout(function () {
-            disposable.unsubscribe();
-        }, 10000);
-    };
     ChecklistComponent.prototype.showDeleteCheckListModal = function (checklist) {
         var _this = this;
         var disposable = this.dialogService.addDialog(delete_checklist_dialog_component_1.DeleteChecklistDialogComponent, {
-            title: 'Confirm title',
-            message: 'Confirm message' })
+            title: 'Delete checklist',
+            message: 'Are you sure you want to delete the checklist "' + checklist.name + '"' })
             .subscribe(function (result) {
             if (result) {
                 _this.deleteChecklist(checklist);
@@ -322,8 +304,8 @@ var ChecklistComponent = (function () {
         var _this = this;
         this.checklistToUpdate = Object.assign(new checklist_1.Checklist, checklist);
         var disposable = this.dialogService.addDialog(update_checklist_dialog_component_1.UpdateChecklistDialogComponent, {
-            title: 'Confirm title',
-            message: 'Confirm message', name: this.checklistToUpdate.name })
+            title: 'Update checklist',
+            message: 'Enter checklist name', name: this.checklistToUpdate.name })
             .subscribe(function (result) {
             if (result) {
                 _this.checklistToUpdate.name = result.name;

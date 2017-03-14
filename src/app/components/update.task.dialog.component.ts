@@ -10,6 +10,9 @@ import { Note } from '../entities/note';
 import { Task } from '../entities/task';
 import { Issue } from '../entities/issue';
 import { NoteService } from '../services/note.service';
+import { IssueService } from '../services/issue.service';
+import { ShowIssuesDialogComponent } from './show.issues.dialog.component';
+import { AddIssueDialogComponent } from './add.issue.dialog.component';
  
 @Component({  
     selector: 'confirm',
@@ -58,7 +61,8 @@ export class UpdateTaskDialogComponent extends DialogComponent {
     constructor(dialogService: DialogService,
         private cookieService:CookieService,
         private router: Router,
-        private noteService: NoteService) {
+        private noteService: NoteService,
+        private issueService: IssueService) {
 
         super(dialogService);
     }
@@ -112,7 +116,7 @@ export class UpdateTaskDialogComponent extends DialogComponent {
                     });
             },
             error => {
-                console.log('Add note error');
+                console.log('Get notes error');
             }
         );
 
@@ -161,28 +165,73 @@ export class UpdateTaskDialogComponent extends DialogComponent {
     }
 
     showIssuesModal(){
+        let token = this.getCookie("checklist_token");
+        if(!token){
+            this.router.navigate(['/login']);
+        }
+
+        let issues: any[] = [];
+        this.issueService.getByTask(this.taskId, token)
+            .subscribe(
+                res => {
+                    issues = res;
+                    console.log('Issues by task: ');
+                    console.log(issues);
+
+                    let disposable = this.dialogService.addDialog(ShowIssuesDialogComponent, {
+                    title:'Issues', 
+                    issues: issues })
+                    .subscribe((result)=>{
+                        if(result){
+
+                        }else {
+                            
+                        }
+                        
+                    });
+            },
+            error => {
+                console.log('Get issues error');
+            }
+        );
 
     }
 
     showAddIssueModal(){
-        // if(!this.issueToAdd.name || this.issueToAdd.name == "" || !this.issueToAdd.description || this.issueToAdd.description == "" ){
-        //     return;
-        // }
-        // let token = this.getCookie("checklist_token");
-        // if(!token){
-        //     this.router.navigate(['/login']);
-        // }
-        // this.issueService.add(this.noteToAdd, this.taskId, 'task', token)
-        //     .subscribe(
-        //         res => {
-        //         console.log('Note created');
-        //         console.log(res);
-        //         //this.notes.push(res);
-        //         this.noteToAdd = new Note();
-        //     },
-        //     error => {
-        //         console.log('Add note error');
-        //     }
-        // );
+        let disposable = this.dialogService.addDialog(AddIssueDialogComponent, {
+          title:'New Issue' })
+          .subscribe((result)=>{
+              if(result){
+                console.log("Issue test");
+                console.log(result.name);
+                this.issueToAdd.name = result.name;
+                this.issueToAdd.description = result.description;
+                this.issueToAdd.resolved = false;
+                this.addIssue();
+              }else {   
+              }
+          });
+    }
+
+    addIssue(){
+        if(!this.issueToAdd.name || this.issueToAdd.name == "" || !this.issueToAdd.description || this.issueToAdd.description == "" ){
+            return;
+        }
+        let token = this.getCookie("checklist_token");
+        if(!token){
+            this.router.navigate(['/login']);
+        }
+        this.issueService.add(this.issueToAdd, this.taskId, token)
+            .subscribe(
+                res => {
+                console.log('Issue created');
+                console.log(res);
+                //this.notes.push(res);
+                this.issueToAdd = new Issue();
+            },
+            error => {
+                console.log('Add issue error');
+            }
+        );
     }
 }

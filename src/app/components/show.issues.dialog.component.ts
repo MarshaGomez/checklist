@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { Router } from '@angular/router';
-import { Note } from '../entities/note';
+import { Issue } from '../entities/issue';
 import { CookieService} from 'angular2-cookie/core';
 import { NoteService } from '../services/note.service';
+import { IssueService } from '../services/issue.service';
  
 @Component({  
     selector: 'confirm',
@@ -17,19 +18,24 @@ import { NoteService } from '../services/note.service';
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Text</th>
+                                <th>Description</th>
+                                <th>Resolved</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let note of notes">
+                            <tr *ngFor="let issue of issues">
                                 <td>
-                                    {{note.name}}
+                                    {{issue.name}}
                                 </td>
                                 <td>
-                                    {{note.text}}
+                                    {{issue.description}}
                                 </td>
                                 <td>
-                                    <button type="button" (click)="deleteNote(note)">Delete</button>
+                                    <input type="checkbox" [checked]="issue.resolved" [(ngModel)]="issue.resolved" (click)= "resolveIssue(issue)"/>
+                                </td>
+                                <td>
+                                    <button type="button" (click)="deleteIssue(issue)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -41,25 +47,25 @@ import { NoteService } from '../services/note.service';
                 </div>`,
     providers: [ CookieService ]
 })
-export class ShowNotesDialogComponent extends DialogComponent {
+export class ShowIssuesDialogComponent extends DialogComponent {
 
     obj: {};
-    notes: any[] = [];
+    issues: any[] = [];
 
     // notes: any[] = [];
 
     constructor(private cookieService:CookieService,
         private router: Router,
         dialogService: DialogService,
-        private noteService: NoteService) {
+        private issueService: IssueService) {
 
         super(dialogService);
     }
 
     ngOnInit(){
         // this.notes = noteService.getByEntity(this.taskId, 'task', this.token);
-        console.log('Notes 2: ');
-        console.log(this.notes);
+        console.log('Issues 2: ');
+        console.log(this.issues);
     }
 
     getCookie(key: string){
@@ -76,8 +82,8 @@ export class ShowNotesDialogComponent extends DialogComponent {
         this.close();
     }
 
-    deleteNote(note: Note){
-        if(!note || !note.id){
+    deleteIssue(issue: Issue){
+        if(!issue || !issue.id){
             return;
         }
 
@@ -87,22 +93,40 @@ export class ShowNotesDialogComponent extends DialogComponent {
             this.router.navigate(['/login']);
         }
 
-        this.noteService.delete(note.id, token)
+        this.issueService.delete(issue.id, token)
             .subscribe(
                 res => {
-                    console.log('Note Removed');
+                    console.log('Issue Removed');
                     console.log(res);        
 
-                    for(var i = 0; i < this.notes.length; i++) {
-                        let noteToDelete: Note = this.notes[i];
-                        if(noteToDelete.id == note.id){
-                            this.notes.splice(i, 1);
+                    for(var i = 0; i < this.issues.length; i++) {
+                        let issueToDelete: Issue = this.issues[i];
+                        if(issueToDelete.id == issue.id){
+                            this.issues.splice(i, 1);
                             break;
                         }
                     }
                 },
                 error => {
-                console.log('Delete error');
+                console.log('Delete issue error');
+            }
+        );
+    }
+
+    resolveIssue(issue: Issue){
+        console.log('TaskId to complete' + issue.id);
+        let token = this.getCookie("checklist_token");
+        if(!token){
+        this.router.navigate(['/login']);
+        }
+        this.issueService.resolve(issue.id, token, issue.resolved)
+        .subscribe(
+                res => {
+                console.log('Issue resolved');
+                console.log(res);
+            },
+            error => {
+            console.log('resolved issue error');
             }
         );
     }
