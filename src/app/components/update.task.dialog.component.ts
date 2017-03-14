@@ -29,6 +29,67 @@ import { AddIssueDialogComponent } from './add.issue.dialog.component';
                     <div>
                         <br/>
                         <label>Notes:</label>
+                        <div class="modal-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Text</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let note of notes">
+                                        <td>
+                                            {{note.name}}
+                                        </td>
+                                        <td>
+                                            {{note.text}}
+                                        </td>
+                                        <td>
+                                            <button type="button" (click)="deleteNote(note)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        <br/>
+                        <label>Issues:</label>
+                        <div class="modal-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Resolved</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let issue of issues">
+                                        <td>
+                                            {{issue.name}}
+                                        </td>
+                                        <td>
+                                            {{issue.description}}
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" [checked]="issue.resolved" [(ngModel)]="issue.resolved" (click)= "resolveIssue(issue)"/>
+                                        </td>
+                                        <td>
+                                            <button type="button" (click)="deleteIssue(issue)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        <br/>
+                        <label>Notes:</label>
                         <button type="button" (click)="showNotesModal()">Show</button>
                         <button type="button" (click)="showAddNoteModal()">Add</button>
                     </div>
@@ -49,12 +110,14 @@ import { AddIssueDialogComponent } from './add.issue.dialog.component';
 })
 export class UpdateTaskDialogComponent extends DialogComponent {
 
+    task: Task; //This task is set by the class that creates creating this dialog component
     name: string;
     description: string;
     taskId: string;
     obj: {};
 
-    // notes: any[] = [];
+    notes: Note[] = [];
+    issues: Issue[] = [];
     noteToAdd: Note;
     issueToAdd: Issue;
     //currentTask: Task;
@@ -68,9 +131,44 @@ export class UpdateTaskDialogComponent extends DialogComponent {
     }
 
     ngOnInit(){
+        let token = this.getCookie("checklist_token");
+        if(!token){
+            this.router.navigate(['/login']);
+        }
+
         this.noteToAdd = new Note();
         this.issueToAdd = new Issue();
         //this.currentTask = new Task();
+
+        this.getNotes(token);
+        this.getIssues(token);
+        
+    }
+
+    getNotes(token: string){
+        //Get task's notes
+        this.noteService.getByEntity(this.task.id, 'task', token)
+            .subscribe(
+                res => {
+                    this.notes = res;
+                },
+                error => {
+                    console.log('Get notes error');
+                }
+            );
+    }
+
+    //Get task's issues
+    getIssues(token: string){
+        this.issueService.getByTask(this.task.id, token)
+            .subscribe(
+                res => {
+                    this.issues = res;
+                },
+                error => {
+                    console.log('Get issues error');
+                }
+            );
     }
 
     getCookie(key: string){
@@ -128,6 +226,9 @@ export class UpdateTaskDialogComponent extends DialogComponent {
                 this.noteToAdd.name = result.name;
                 this.noteToAdd.text = result.text;
                 this.addNote();
+                
+                let token = this.getCookie("checklist_token");
+                this.getNotes(token);
               }else {
                   
               }
@@ -206,6 +307,9 @@ export class UpdateTaskDialogComponent extends DialogComponent {
                 this.issueToAdd.description = result.description;
                 this.issueToAdd.resolved = false;
                 this.addIssue();
+
+                let token = this.getCookie("checklist_token");
+                this.getIssues(token);
               }else {   
               }
           });
@@ -213,6 +317,7 @@ export class UpdateTaskDialogComponent extends DialogComponent {
 
     addIssue(){
         if(!this.issueToAdd.name || this.issueToAdd.name == "" || !this.issueToAdd.description || this.issueToAdd.description == "" ){
+            console.log("Mandatory issue fields are missing");
             return;
         }
         let token = this.getCookie("checklist_token");
