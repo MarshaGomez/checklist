@@ -65,7 +65,7 @@ var IssueService = (function () {
     IssueService.prototype.resolve = function (issueId, token, resolved) {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.put('http://localhost:8084/ChecklistsAPI/api/issues/' + issueId + '/resolved?resolved=' + !resolved, options)
+        return this.http.put('http://localhost:8084/ChecklistsAPI/api/issues/' + issueId + '/resolved?resolved=' + !resolved, '', options)
             .map(function (res) {
             console.log('Server Response: ');
             console.log(res);

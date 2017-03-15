@@ -42,6 +42,7 @@ var UpdateTaskDialogComponent = (function (_super) {
         if (!token) {
             this.router.navigate(['/login']);
         }
+        console.log('Token: ' + token);
         this.noteToAdd = new note_1.Note();
         this.issueToAdd = new issue_1.Issue();
         //this.currentTask = new Task();
@@ -208,6 +209,68 @@ var UpdateTaskDialogComponent = (function (_super) {
             _this.issueToAdd = new issue_1.Issue();
         }, function (error) {
             console.log('Add issue error');
+        });
+    };
+    UpdateTaskDialogComponent.prototype.deleteNote = function (note) {
+        var _this = this;
+        if (!note || !note.id) {
+            return;
+        }
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.noteService.delete(note.id, token)
+            .subscribe(function (res) {
+            console.log('Note Removed');
+            console.log(res);
+            for (var i = 0; i < _this.notes.length; i++) {
+                var noteToDelete = _this.notes[i];
+                if (noteToDelete.id == note.id) {
+                    _this.notes.splice(i, 1);
+                    break;
+                }
+            }
+        }, function (error) {
+            console.log('Delete error');
+        });
+    };
+    UpdateTaskDialogComponent.prototype.deleteIssue = function (issue) {
+        var _this = this;
+        if (!issue || !issue.id) {
+            return;
+        }
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.issueService.delete(issue.id, token)
+            .subscribe(function (res) {
+            console.log('Issue Removed');
+            console.log(res);
+            for (var i = 0; i < _this.issues.length; i++) {
+                var issueToDelete = _this.issues[i];
+                if (issueToDelete.id == issue.id) {
+                    _this.issues.splice(i, 1);
+                    break;
+                }
+            }
+        }, function (error) {
+            console.log('Delete issue error');
+        });
+    };
+    UpdateTaskDialogComponent.prototype.resolveIssue = function (issue) {
+        console.log('TaskId to complete' + issue.id);
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.issueService.resolve(issue.id, token, issue.resolved)
+            .subscribe(function (res) {
+            console.log('Issue resolved');
+            console.log(res);
+        }, function (error) {
+            console.log('resolved issue error');
         });
     };
     UpdateTaskDialogComponent = __decorate([

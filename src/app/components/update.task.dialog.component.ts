@@ -135,6 +135,7 @@ export class UpdateTaskDialogComponent extends DialogComponent {
         if(!token){
             this.router.navigate(['/login']);
         }
+        console.log('Token: ' + token);
 
         this.noteToAdd = new Note();
         this.issueToAdd = new Issue();
@@ -336,6 +337,86 @@ export class UpdateTaskDialogComponent extends DialogComponent {
             },
             error => {
                 console.log('Add issue error');
+            }
+        );
+    }
+
+    deleteNote(note: Note){
+        if(!note || !note.id){
+            return;
+        }
+
+        let token = this.getCookie("checklist_token");
+
+        if(!token){
+            this.router.navigate(['/login']);
+        }
+
+        this.noteService.delete(note.id, token)
+            .subscribe(
+                res => {
+                    console.log('Note Removed');
+                    console.log(res);        
+
+                    for(var i = 0; i < this.notes.length; i++) {
+                        let noteToDelete: Note = this.notes[i];
+                        if(noteToDelete.id == note.id){
+                            this.notes.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+                error => {
+                console.log('Delete error');
+            }
+        );
+    }
+
+    deleteIssue(issue: Issue){
+        if(!issue || !issue.id){
+            return;
+        }
+
+        let token = this.getCookie("checklist_token");
+
+        if(!token){
+            this.router.navigate(['/login']);
+        }
+
+        this.issueService.delete(issue.id, token)
+            .subscribe(
+                res => {
+                    console.log('Issue Removed');
+                    console.log(res);        
+
+                    for(var i = 0; i < this.issues.length; i++) {
+                        let issueToDelete: Issue = this.issues[i];
+                        if(issueToDelete.id == issue.id){
+                            this.issues.splice(i, 1);
+                            break;
+                        }
+                    }
+                },
+                error => {
+                console.log('Delete issue error');
+            }
+        );
+    }
+
+    resolveIssue(issue: Issue){
+        console.log('TaskId to complete' + issue.id);
+        let token = this.getCookie("checklist_token");
+        if(!token){
+            this.router.navigate(['/login']);
+        }
+        this.issueService.resolve(issue.id, token, issue.resolved)
+        .subscribe(
+                res => {
+                console.log('Issue resolved');
+                console.log(res);
+            },
+            error => {
+            console.log('resolved issue error');
             }
         );
     }

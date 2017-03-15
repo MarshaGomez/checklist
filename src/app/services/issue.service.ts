@@ -66,7 +66,7 @@ export class IssueService {
   resolve(issueId: string, token: string, resolved: boolean){
     let headers = new Headers({'Content-Type': 'application/json', 'token': token});
     let options = new RequestOptions({headers: headers});
-    return this.http.put('http://localhost:8084/ChecklistsAPI/api/issues/' + issueId + '/resolved?resolved=' + !resolved, options)
+    return this.http.put('http://localhost:8084/ChecklistsAPI/api/issues/' + issueId + '/resolved?resolved=' + !resolved, '', options)
         .map(
             res => {
                 console.log('Server Response: ');
