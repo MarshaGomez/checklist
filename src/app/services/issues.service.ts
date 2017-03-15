@@ -4,17 +4,17 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Note } from '../entities/note';
+import { Issue } from '../entities/issue';
 
 @Injectable()
-export class NoteService {
+export class IssuesService {
 
   constructor(private http: Http) { }
 
   getByEntity(entityId: string, entity: string, token:String){
     let headers = new Headers({'Content-Type': 'application/json', 'token': token});
     let options = new RequestOptions({headers: headers});
-    return this.http.get('http://localhost:8084/ChecklistsAPI/api/notes/' + entity + '/' + entityId, options)
+    return this.http.get('http://localhost:8084/ChecklistsAPI/api/tasks/' + entity + '/' + entityId, options)
         .map(this.extractData)
         .catch(this.handleError);
   }
@@ -36,43 +36,16 @@ export class NoteService {
         return Observable.throw(errMsg);
   }
 
-  add(note: Note, entityId: string, entity: string, token:String){
-    let headers = new Headers({'Content-Type': 'application/json', 'token': token});
-    let options = new RequestOptions({headers: headers});
-
-    let body = {
-        name: note.name,
-        text: note.text
-    };
-
-    return this.http.post('http://localhost:8084/ChecklistsAPI/api/notes/' + entity + '/' + entityId, body, options)
-        .map(this.extractData)
-        .catch(this.handleError);  
-  }
-
-  delete(noteId: string, token: string){
-    let headers = new Headers({'Content-Type': 'application/json', 'token': token});
-    let options = new RequestOptions({headers: headers});
-    return this.http.delete('http://localhost:8084/ChecklistsAPI/api/notes/' + noteId, options)
-        .map(
-            res => {
-                console.log('Server Response: ');
-                console.log(res);
-                return res || {};
-            })
-        .catch(this.handleError);
-  }
-
-  update(note: Note, token: string ){
+  add(issue: Issue, taskId: String, token:String){
       let headers = new Headers({'Content-Type': 'application/json', 'token': token});
     let options = new RequestOptions({headers: headers});
 
     let body = {
-        name: note.name,
-        text: note.text
+        name: issue.name,
+        description: issue.description,
+        resolved: issue.resolved
     };
-
-    return this.http.put('http://localhost:8084/ChecklistsAPI/api/notes/' + note.id , body, options)
+    return this.http.post('http://localhost:8084/ChecklistsAPI/api/issues/tasks/' + taskId, body, options)
         .map(this.extractData)
         .catch(this.handleError);  
   }

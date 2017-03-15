@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Note } from '../entities/note';
 import { CookieService} from 'angular2-cookie/core';
 import { NoteService } from '../services/note.service';
+import { UpdateNoteDialogComponent } from './update.note.dialog.component';
  
 @Component({  
     selector: 'confirm',
@@ -31,6 +32,9 @@ import { NoteService } from '../services/note.service';
                                 <td>
                                     <button type="button" (click)="deleteNote(note)">Delete</button>
                                 </td>
+                                <td>
+                                    <button type="button" (click)="showUpdateNoteModal(note)">Update</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -45,6 +49,7 @@ export class ShowNotesDialogComponent extends DialogComponent {
 
     obj: {};
     notes: any[] = [];
+    noteToUpdate: Note;
 
     // notes: any[] = [];
 
@@ -103,6 +108,47 @@ export class ShowNotesDialogComponent extends DialogComponent {
                 },
                 error => {
                 console.log('Delete error');
+            }
+        );
+    }
+
+    showUpdateNoteModal(note: Note){
+        this.noteToUpdate = Object.assign(new Note, note);
+        let disposable = this.dialogService.addDialog(UpdateNoteDialogComponent, {
+          title:'Update note', name: this.noteToUpdate.name, text: this.noteToUpdate.text  })
+          .subscribe((result)=>{
+              if(result){
+                this.noteToUpdate.name = result.name;
+                this.noteToUpdate.text = result.text;
+                this.updateNote();
+              } else {   
+              }
+          });
+    }
+
+    updateNote(){
+        if(!this.noteToUpdate.name || this.noteToUpdate.name == "" || !this.noteToUpdate.text || this.noteToUpdate.text == "" ){
+            return;
+        }
+        let token = this.getCookie("checklist_token");
+        if(!token){
+            this.router.navigate(['/login']);
+        }
+        this.noteService.update(this.noteToUpdate, token)
+            .subscribe(
+                res => {
+                console.log('Note updated');
+                console.log(res);
+                for(var i = 0; i < this.notes.length; i++) {
+                if(this.noteToUpdate.id == this.notes[i].id){
+                  this.notes[i] = Object.assign(new Note, this.noteToUpdate);
+                  break;
+                }
+              }
+                this.noteToUpdate = new Note();
+            },
+            error => {
+                console.log('Update note error');
             }
         );
     }

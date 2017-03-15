@@ -73,6 +73,17 @@ var IssueService = (function () {
         })
             .catch(this.handleError);
     };
+    IssueService.prototype.update = function (issue, token) {
+        var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'token': token });
+        var options = new http_1.RequestOptions({ headers: headers });
+        var body = {
+            name: issue.name,
+            description: issue.description
+        };
+        return this.http.put('http://localhost:8084/ChecklistsAPI/api/issues/' + issue.id, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
     IssueService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

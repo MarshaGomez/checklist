@@ -76,4 +76,18 @@ export class IssueService {
         .catch(this.handleError);
   }
 
+  update(issue: Issue, token: string ){
+      let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+    let options = new RequestOptions({headers: headers});
+
+    let body = {
+        name: issue.name,
+        description: issue.description
+    };
+
+    return this.http.put('http://localhost:8084/ChecklistsAPI/api/issues/' + issue.id , body, options)
+        .map(this.extractData)
+        .catch(this.handleError);  
+  }
+
 }

@@ -35,6 +35,8 @@ var add_note_dialog_component_1 = require('./components/add.note.dialog.componen
 var show_notes_dialog_component_1 = require('./components/show.notes.dialog.component');
 var show_issues_dialog_component_1 = require('./components/show.issues.dialog.component');
 var add_issue_dialog_component_1 = require('./components/add.issue.dialog.component');
+var update_note_dialog_component_1 = require('./components/update.note.dialog.component');
+var update_issue_dialog_component_1 = require('./components/update.issue.dialog.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -63,7 +65,9 @@ var AppModule = (function () {
                 add_note_dialog_component_1.AddNoteDialogComponent,
                 show_notes_dialog_component_1.ShowNotesDialogComponent,
                 show_issues_dialog_component_1.ShowIssuesDialogComponent,
-                add_issue_dialog_component_1.AddIssueDialogComponent
+                add_issue_dialog_component_1.AddIssueDialogComponent,
+                update_note_dialog_component_1.UpdateNoteDialogComponent,
+                update_issue_dialog_component_1.UpdateIssueDialogComponent
             ],
             entryComponents: [
                 notes_dialog_component_1.NotesDialogComponent,
@@ -75,7 +79,9 @@ var AppModule = (function () {
                 add_note_dialog_component_1.AddNoteDialogComponent,
                 show_notes_dialog_component_1.ShowNotesDialogComponent,
                 show_issues_dialog_component_1.ShowIssuesDialogComponent,
-                add_issue_dialog_component_1.AddIssueDialogComponent
+                add_issue_dialog_component_1.AddIssueDialogComponent,
+                update_note_dialog_component_1.UpdateNoteDialogComponent,
+                update_issue_dialog_component_1.UpdateIssueDialogComponent
             ],
             providers: [
                 user_service_1.UserService,

@@ -25,6 +25,8 @@ var note_service_1 = require('../services/note.service');
 var issue_service_1 = require('../services/issue.service');
 var show_issues_dialog_component_1 = require('./show.issues.dialog.component');
 var add_issue_dialog_component_1 = require('./add.issue.dialog.component');
+var update_issue_dialog_component_1 = require('./update.issue.dialog.component');
+var update_note_dialog_component_1 = require('./update.note.dialog.component');
 var UpdateTaskDialogComponent = (function (_super) {
     __extends(UpdateTaskDialogComponent, _super);
     //currentTask: Task;
@@ -235,6 +237,45 @@ var UpdateTaskDialogComponent = (function (_super) {
             console.log('Delete error');
         });
     };
+    UpdateTaskDialogComponent.prototype.showUpdateNoteModal = function (note) {
+        var _this = this;
+        this.noteToUpdate = Object.assign(new note_1.Note, note);
+        var disposable = this.dialogService.addDialog(update_note_dialog_component_1.UpdateNoteDialogComponent, {
+            title: 'Update note', name: this.noteToUpdate.name, text: this.noteToUpdate.text })
+            .subscribe(function (result) {
+            if (result) {
+                _this.noteToUpdate.name = result.name;
+                _this.noteToUpdate.text = result.text;
+                _this.updateNote();
+            }
+            else {
+            }
+        });
+    };
+    UpdateTaskDialogComponent.prototype.updateNote = function () {
+        var _this = this;
+        if (!this.noteToUpdate.name || this.noteToUpdate.name == "" || !this.noteToUpdate.text || this.noteToUpdate.text == "") {
+            return;
+        }
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.noteService.update(this.noteToUpdate, token)
+            .subscribe(function (res) {
+            console.log('Note updated');
+            console.log(res);
+            for (var i = 0; i < _this.notes.length; i++) {
+                if (_this.noteToUpdate.id == _this.notes[i].id) {
+                    _this.notes[i] = Object.assign(new note_1.Note, _this.noteToUpdate);
+                    break;
+                }
+            }
+            _this.noteToUpdate = new note_1.Note();
+        }, function (error) {
+            console.log('Update note error');
+        });
+    };
     UpdateTaskDialogComponent.prototype.deleteIssue = function (issue) {
         var _this = this;
         if (!issue || !issue.id) {
@@ -273,10 +314,49 @@ var UpdateTaskDialogComponent = (function (_super) {
             console.log('resolved issue error');
         });
     };
+    UpdateTaskDialogComponent.prototype.showUpdateIssueModal = function (issue) {
+        var _this = this;
+        this.issueToUpdate = Object.assign(new issue_1.Issue, issue);
+        var disposable = this.dialogService.addDialog(update_issue_dialog_component_1.UpdateIssueDialogComponent, {
+            title: 'Update Issue', name: this.issueToUpdate.name, description: this.issueToUpdate.description })
+            .subscribe(function (result) {
+            if (result) {
+                _this.issueToUpdate.name = result.name;
+                _this.issueToUpdate.description = result.description;
+                _this.updateIssue();
+            }
+            else {
+            }
+        });
+    };
+    UpdateTaskDialogComponent.prototype.updateIssue = function () {
+        var _this = this;
+        if (!this.issueToUpdate.name || this.issueToUpdate.name == "" || !this.issueToUpdate.description || this.issueToUpdate.description == "") {
+            return;
+        }
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.issueService.update(this.issueToUpdate, token)
+            .subscribe(function (res) {
+            console.log('Issue updated');
+            console.log(res);
+            for (var i = 0; i < _this.issues.length; i++) {
+                if (_this.issueToUpdate.id == _this.issues[i].id) {
+                    _this.issues[i] = Object.assign(new issue_1.Issue, _this.issueToUpdate);
+                    break;
+                }
+            }
+            _this.issueToUpdate = new issue_1.Issue();
+        }, function (error) {
+            console.log('Update issue error');
+        });
+    };
     UpdateTaskDialogComponent = __decorate([
         core_1.Component({
             selector: 'confirm',
-            template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <input type=\"text\" [(ngModel)]=\"name\" placeholder=\"task name\">\n                    <input type=\"text\" [(ngModel)]=\"description\" placeholder=\"task description\">\n\n                    <div>\n                        <br/>\n                        <label>Notes:</label>\n                        <div class=\"modal-body\">\n                            <table class=\"table\">\n                                <thead>\n                                    <tr>\n                                        <th>Name</th>\n                                        <th>Text</th>\n                                    </tr>\n                                </thead>\n                                <tbody>\n                                    <tr *ngFor=\"let note of notes\">\n                                        <td>\n                                            {{note.name}}\n                                        </td>\n                                        <td>\n                                            {{note.text}}\n                                        </td>\n                                        <td>\n                                            <button type=\"button\" (click)=\"deleteNote(note)\">Delete</button>\n                                        </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n                    </div>\n\n                    <div>\n                        <br/>\n                        <label>Issues:</label>\n                        <div class=\"modal-body\">\n                            <table class=\"table\">\n                                <thead>\n                                    <tr>\n                                        <th>Name</th>\n                                        <th>Description</th>\n                                        <th>Resolved</th>\n                                        <th></th>\n                                    </tr>\n                                </thead>\n                                <tbody>\n                                    <tr *ngFor=\"let issue of issues\">\n                                        <td>\n                                            {{issue.name}}\n                                        </td>\n                                        <td>\n                                            {{issue.description}}\n                                        </td>\n                                        <td>\n                                            <input type=\"checkbox\" [checked]=\"issue.resolved\" [(ngModel)]=\"issue.resolved\" (click)= \"resolveIssue(issue)\"/>\n                                        </td>\n                                        <td>\n                                            <button type=\"button\" (click)=\"deleteIssue(issue)\">Delete</button>\n                                        </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n                    </div>\n\n                    <div>\n                        <br/>\n                        <label>Notes:</label>\n                        <button type=\"button\" (click)=\"showNotesModal()\">Show</button>\n                        <button type=\"button\" (click)=\"showAddNoteModal()\">Add</button>\n                    </div>\n\n                    <div>\n                        <br/>\n                        <label>Issues:</label>\n                        <button type=\"button\" (click)=\"showIssuesModal()\">Show</button>\n                        <button type=\"button\" (click)=\"showAddIssueModal()\">Add</button>\n                    </div>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                    <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n                </div>\n                </div>",
+            template: " <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" (click)=\"close()\" >&times;</button>\n                    <h4 class=\"modal-title\">{{title || 'Confirm'}}</h4>\n                </div>\n                <div class=\"modal-body\">\n                    <input type=\"text\" [(ngModel)]=\"name\" placeholder=\"task name\">\n                    <input type=\"text\" [(ngModel)]=\"description\" placeholder=\"task description\">\n\n                    <div>\n                        <br/>\n                        <label>Notes:</label>\n                        <div class=\"modal-body\">\n                            <table class=\"table\">\n                                <thead>\n                                    <tr>\n                                        <th>Name</th>\n                                        <th>Text</th>\n                                    </tr>\n                                </thead>\n                                <tbody>\n                                    <tr *ngFor=\"let note of notes\">\n                                        <td>\n                                            {{note.name}}\n                                        </td>\n                                        <td>\n                                            {{note.text}}\n                                        </td>\n                                        <td>\n                                            <button type=\"button\" (click)=\"deleteNote(note)\">Delete</button>\n                                        </td>\n                                        <td>\n                                            <button type=\"button\" (click)=\"showUpdateNoteModal(note)\">Update</button>\n                                        </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n                    </div>\n\n                    <div>\n                        <br/>\n                        <label>Issues:</label>\n                        <div class=\"modal-body\">\n                            <table class=\"table\">\n                                <thead>\n                                    <tr>\n                                        <th>Name</th>\n                                        <th>Description</th>\n                                        <th>Resolved</th>\n                                        <th></th>\n                                    </tr>\n                                </thead>\n                                <tbody>\n                                    <tr *ngFor=\"let issue of issues\">\n                                        <td>\n                                            {{issue.name}}\n                                        </td>\n                                        <td>\n                                            {{issue.description}}\n                                        </td>\n                                        <td>\n                                            <input type=\"checkbox\" [checked]=\"issue.resolved\" [(ngModel)]=\"issue.resolved\" (click)= \"resolveIssue(issue)\"/>\n                                        </td>\n                                        <td>\n                                            <button type=\"button\" (click)=\"deleteIssue(issue)\">Delete</button>\n                                        </td>\n                                        <td>\n                                            <button type=\"button\" (click)=\"showUpdateIssueModal(issue)\">Update</button>\n                                        </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n                    </div>\n\n                    <div>\n                        <br/>\n                        <label>Notes:</label>\n                        <button type=\"button\" (click)=\"showNotesModal()\">Show</button>\n                        <button type=\"button\" (click)=\"showAddNoteModal()\">Add</button>\n                    </div>\n\n                    <div>\n                        <br/>\n                        <label>Issues:</label>\n                        <button type=\"button\" (click)=\"showIssuesModal()\">Show</button>\n                        <button type=\"button\" (click)=\"showAddIssueModal()\">Add</button>\n                    </div>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-primary\" (click)=\"confirm()\">OK</button>\n                    <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n                </div>\n                </div>",
             providers: [core_2.CookieService]
         }), 
         __metadata('design:paramtypes', [ng2_bootstrap_modal_1.DialogService, core_2.CookieService, router_1.Router, note_service_1.NoteService, issue_service_1.IssueService])
