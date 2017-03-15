@@ -135,7 +135,7 @@ export class ShowIssuesDialogComponent extends DialogComponent {
         );
     }
 
-     showUpdateIssueModal(issue: Issue){
+    showUpdateIssueModal(issue: Issue){
         this.issueToUpdate = Object.assign(new Issue, issue);
         let disposable = this.dialogService.addDialog(UpdateIssueDialogComponent, {
           title:'Update Issue', name: this.issueToUpdate.name, description: this.issueToUpdate.description  })
