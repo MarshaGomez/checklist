@@ -26,9 +26,9 @@
 
 <div class="px-content">
   <div class="page-header">
-    	    <p style="font-size:36px;text-align: left;color:white;"><i class="page-header-icon ion-android-checkbox-outline"></i>{{selectedChecklist.name}}</p>
-    
-    <img src="../../assets/img/ico/edit.png" alt="Mountain View" style="width:18px;height:18px;" *ngIf="selectedChecklist.id" (click)="showUpdateChecklistModal(selectedChecklist)" />
+    <p *ngIf="selectedChecklist.id" (click)="showUpdateChecklistModal(selectedChecklist)" data-toggle="tooltip" title="Click to Edit!" style="cursor: pointer; font-size:36px;text-align: left;color:white;">{{selectedChecklist.name}}</p>
+    <!--<p style="font-size:36px;text-align: left;color:white;"><i class="page-header-icon ion-android-checkbox-outline"></i>{{selectedChecklist.name}}</p>-->    
+    <!--<img src="../../assets/img/ico/edit.png" alt="Mountain View" style="width:18px;height:18px;" *ngIf="selectedChecklist.id" (click)="showUpdateChecklistModal(selectedChecklist)" />-->
     <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
       <div class="input-group">
         <span class="input-group-addon b-a-0 font-size-16"><i class="ion-search"></i></span>
