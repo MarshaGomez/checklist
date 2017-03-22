@@ -28,7 +28,7 @@ import { UpdateNoteDialogComponent } from './update.note.dialog.component';
                     <input type="text" [(ngModel)]="description" placeholder="task description">
 
                     <div>
-                        <br/>
+                        <button type="button" (click)="showAddNoteModal()">Add</button>
                         <label>Notes:</label>
                         <div class="modal-body">
                             <table class="table">
@@ -59,7 +59,7 @@ import { UpdateNoteDialogComponent } from './update.note.dialog.component';
                     </div>
 
                     <div>
-                        <br/>
+                        <button type="button" (click)="showAddIssueModal()">Add</button>
                         <label>Issues:</label>
                         <div class="modal-body">
                             <table class="table">
@@ -94,7 +94,7 @@ import { UpdateNoteDialogComponent } from './update.note.dialog.component';
                         </div>
                     </div>
 
-                    <div>
+                    <!--<div>
                         <br/>
                         <label>Notes:</label>
                         <button type="button" (click)="showNotesModal()">Show</button>
@@ -106,7 +106,7 @@ import { UpdateNoteDialogComponent } from './update.note.dialog.component';
                         <label>Issues:</label>
                         <button type="button" (click)="showIssuesModal()">Show</button>
                         <button type="button" (click)="showAddIssueModal()">Add</button>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" (click)="confirm()">OK</button>

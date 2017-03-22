@@ -11,6 +11,9 @@
         <a class="btn btn-xs btn-danger btn-outline" (click)="logout()" ><i class="fa fa-power-off"></i></a>
       </div>
     </li>
+    <li class="px-nav-box b-t-1 p-a-2">
+      <a class="btn btn-primary btn-block btn-outline" (click)="getChecklistByOwnerWithTasks()" >Print</a>
+    </li>
     <input type="text" (keyup.enter)="addChecklist()" [(ngModel)]="newChecklistName" placeholder="New Checklist">
     <li *ngFor="let checklist of checklists" class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-item">
       <button type="button" (click)="showDeleteCheckListModal(checklist)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -18,15 +21,12 @@
         <i class="px-nav-icon ion-ios-pulse-strong"></i><span (click)="selectChecklist(checklist)" class="px-nav-label" style="color: #fff;">{{checklist.name}}</span>
       </div>
     </li>
-    <li class="px-nav-box b-t-1 p-a-2">
-      <a class="btn btn-primary btn-block btn-outline">Create Checklist</a>
-    </li>
   </ul>
 </nav>
 
 <div class="px-content">
   <div class="page-header">
-    <h1><i class="page-header-icon ion-android-checkbox-outline"></i>{{selectedChecklist.name}}</h1>
+    	    <p style="font-size:36px;text-align: left;color:white;"><i class="page-header-icon ion-android-checkbox-outline"></i>{{selectedChecklist.name}}</p>
     
     <img src="../../assets/img/ico/edit.png" alt="Mountain View" style="width:18px;height:18px;" *ngIf="selectedChecklist.id" (click)="showUpdateChecklistModal(selectedChecklist)" />
     <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
@@ -41,7 +41,9 @@
     <div class="col-md-12">
 
       <!--<button (click)="showAddTaskModal()">New Task</button>-->
-      <a class="btn btn-primary btn-block btn-outline" (click)="showAddTaskModal()">Create Task</a>
+      <div  class="p-y-2 p-x-3">
+          <button type="button" class="btn btn-primary btn-block" (click)="showAddTaskModal()">Create Task</button>
+      </div>
 
       <!-- Recent tasks -->
 
@@ -50,7 +52,7 @@
           <div class="page-forums-list-title box-cell col-md-7 col-lg-8 col-xl-9 p-r-4">
             <div class="widget-tasks-item">
               <table id="editable-table1" style="cursor: pointer;">
-                <span class="label label-warning pull-right">High</span>
+                <!--<span class="label label-warning pull-right">High</span>-->
                 <tr>
                   <th>
                     <div class="widget-tasks-item">
@@ -85,6 +87,7 @@
                 </div>
                 <div class="box-cell p-l-1 p-r-3">
                   <a href="#">
+                    <!--<div class="font-size-14"><strong>5</strong></div>-->
                     <div class="font-size-14"><strong>5</strong></div>
                     <div class="font-size-11 text-muted line-height-1">notes</div>
                   </a>

@@ -37,6 +37,7 @@ var show_issues_dialog_component_1 = require('./components/show.issues.dialog.co
 var add_issue_dialog_component_1 = require('./components/add.issue.dialog.component');
 var update_note_dialog_component_1 = require('./components/update.note.dialog.component');
 var update_issue_dialog_component_1 = require('./components/update.issue.dialog.component');
+var print_checklists_dialog_component_1 = require('./components/print.checklists.dialog.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -67,7 +68,8 @@ var AppModule = (function () {
                 show_issues_dialog_component_1.ShowIssuesDialogComponent,
                 add_issue_dialog_component_1.AddIssueDialogComponent,
                 update_note_dialog_component_1.UpdateNoteDialogComponent,
-                update_issue_dialog_component_1.UpdateIssueDialogComponent
+                update_issue_dialog_component_1.UpdateIssueDialogComponent,
+                print_checklists_dialog_component_1.PrintChecklistsDialogComponent
             ],
             entryComponents: [
                 notes_dialog_component_1.NotesDialogComponent,
@@ -81,7 +83,8 @@ var AppModule = (function () {
                 show_issues_dialog_component_1.ShowIssuesDialogComponent,
                 add_issue_dialog_component_1.AddIssueDialogComponent,
                 update_note_dialog_component_1.UpdateNoteDialogComponent,
-                update_issue_dialog_component_1.UpdateIssueDialogComponent
+                update_issue_dialog_component_1.UpdateIssueDialogComponent,
+                print_checklists_dialog_component_1.PrintChecklistsDialogComponent
             ],
             providers: [
                 user_service_1.UserService,

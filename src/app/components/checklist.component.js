@@ -22,6 +22,7 @@ var update_task_dialog_component_1 = require('./update.task.dialog.component');
 var delete_task_dialog_component_1 = require('./delete.task.dialog.component');
 var delete_checklist_dialog_component_1 = require('./delete.checklist.dialog.component');
 var update_checklist_dialog_component_1 = require('./update.checklist.dialog.component');
+var print_checklists_dialog_component_1 = require('./print.checklists.dialog.component');
 var ChecklistComponent = (function () {
     //selectedChecklistId: string;
     //selectedChecklistName: string;
@@ -45,6 +46,8 @@ var ChecklistComponent = (function () {
         this.taskToUpdate = new task_1.Task();
         this.selectedChecklist = new checklist_1.Checklist();
         this.checklistToUpdate = new checklist_1.Checklist();
+        this.allChecklists = [new checklist_1.Checklist()];
+        this.checklistsToPrint = [new checklist_1.Checklist()];
         if (!token) {
             this.router.navigate(['/login']);
         }
@@ -332,6 +335,75 @@ var ChecklistComponent = (function () {
         }, function (error) {
             console.log('Update Checklist error');
         });
+    };
+    ChecklistComponent.prototype.getChecklistByOwnerWithTasks = function () {
+        var _this = this;
+        var token = this.getCookie("checklist_token");
+        if (!token) {
+            this.router.navigate(['/login']);
+        }
+        this.checklistService.getByOwner(token)
+            .subscribe(function (res) {
+            _this.allChecklists = res;
+            console.log('All checklists');
+            console.log(_this.allChecklists);
+            _this.allChecklists.forEach(function (thisChecklist) {
+                _this.taskService.getByChecklist(thisChecklist.id, token)
+                    .subscribe(function (res2) {
+                    var tasks = res2;
+                    thisChecklist.tasks = tasks;
+                }, function (error2) {
+                });
+            });
+            var disposable = _this.dialogService.addDialog(print_checklists_dialog_component_1.PrintChecklistsDialogComponent, {
+                title: 'Print checklists',
+                message: '',
+                checklists: _this.allChecklists })
+                .subscribe(function (result) {
+                if (result) {
+                    var checklistsToPrint = result.checklistsToPrint;
+                    _this.checklistsToPrint = [new checklist_1.Checklist()];
+                    var i = void 0;
+                    for (i = 0; i < checklistsToPrint.length; i++) {
+                        _this.checklistsToPrint.push(checklistsToPrint[i]);
+                    }
+                    // this.checklistsToPrint = result.checklistsToPrint;
+                    // console.log('Checklists to print: ');
+                    // console.log(this.checklistsToPrint);
+                    //TODO: check how to wait until model-view binding is done and remove next lines
+                    // var start = new Date().getTime();
+                    // var end = start;
+                    // while(end < start + 1000) {
+                    //   end = new Date().getTime();
+                    // }
+                    // this.printChecklists();
+                    _this.print(checklistsToPrint);
+                }
+            });
+        }, function (error) {
+            return undefined;
+        });
+    };
+    ChecklistComponent.prototype.print = function (checklists) {
+        var printContents;
+        var i;
+        for (i = 0; i < checklists.length; i++) {
+            if (checklists[i].print) {
+                var tasks = '';
+                var j = void 0;
+                for (j = 0; j < checklists[i].tasks.length; j++) {
+                    tasks += '<span>' + checklists[i].tasks[j].name + '</span><br\>';
+                }
+                printContents += "\n          <ul>\n            <li>\n              <div>\n                <h1>" + checklists[i].name + "</h1>" + tasks +
+                    "</div>\n            </li>\n          </ul>\n        ";
+            }
+        }
+        var popupWin;
+        // printContents = document.getElementById('print-section').innerHTML;
+        popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+        popupWin.document.open();
+        popupWin.document.write("\n      <html>\n        <head>\n          <title>Checklist report</title>\n          <style>\n          //........Customized style.......\n          </style>\n        </head>\n    <body onload=\"window.print();window.close()\">\n      " + printContents + "  \n    </body>\n      </html>");
+        popupWin.document.close();
     };
     ChecklistComponent = __decorate([
         core_1.Component({

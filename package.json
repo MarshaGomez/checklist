@@ -34,6 +34,7 @@
     "@angular/router": "~3.4.0",
 
     "angular-in-memory-web-api": "~0.2.4",
+    "angular2-cookie": "^1.2.6",
     "systemjs": "0.19.40",
     "core-js": "^2.4.1",
     "rxjs": "5.0.1",
@@ -55,7 +56,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~4.0.14",
     "rimraf": "^2.5.4",
-
+    "ng2-bootstrap-modal": "0.0.3",
     "@types/node": "^6.0.46",
     "@types/jasmine": "2.5.36"
   },

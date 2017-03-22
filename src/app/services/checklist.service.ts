@@ -13,13 +13,41 @@ export class ChecklistService {
   constructor(private http: Http) { }
 
   getByOwner(token:String){
-    //token = '78db325a-7599-40dd-93f1-3d5324aeffbd';
     let headers = new Headers({'Content-Type': 'application/json', 'token': token});
     let options = new RequestOptions({headers: headers});
     return this.http.get('http://localhost:8084/ChecklistsAPI/api/checklists/users', options)
         .map(this.extractData)
         .catch(this.handleError);
   }
+
+//   getByOwnerWithTasks(token:String){
+//     let headers = new Headers({'Content-Type': 'application/json', 'token': token});
+//     let options = new RequestOptions({headers: headers});
+//     return this.http.get('http://localhost:8084/ChecklistsAPI/api/checklists/users', options)
+//         .subscribe(
+//             res => {
+//                 let checklists: Checklist[] = res;
+
+//                 checklists.forEach(thisChecklist => {
+
+//                     this.taskService.getByChecklist(thisChecklist.id, token)
+//                         .subscribe(
+//                         res2 => {
+//                             let tasks: Task[] = <Task[]>res2;
+//                             thisChecklist.tasks = tasks;
+//                         },
+//                         error2 => {
+
+//                         }
+//                         );
+
+//                 });
+//             },
+//             error => {
+
+//             }
+//         );
+//   }
 
   delete(checklistId: string, token: string){
     let headers = new Headers({'Content-Type': 'application/json', 'token': token});

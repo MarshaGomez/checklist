@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Observable }     from 'rxjs/Observable';
+
 import { CookieService} from 'angular2-cookie/core';
 import { DialogService } from 'ng2-bootstrap-modal';
 
@@ -15,6 +17,7 @@ import { UpdateTaskDialogComponent } from './update.task.dialog.component';
 import { DeleteTaskDialogComponent } from './delete.task.dialog.component';
 import { DeleteChecklistDialogComponent } from './delete.checklist.dialog.component';
 import { UpdateChecklistDialogComponent } from './update.checklist.dialog.component';
+import { PrintChecklistsDialogComponent } from './print.checklists.dialog.component'
 
 
 @Component({
@@ -40,6 +43,8 @@ export class ChecklistComponent {
   taskToUpdate : Task;
   selectedChecklist: Checklist;
   checklistToUpdate: Checklist;
+  allChecklists: Checklist[];
+  checklistsToPrint: Checklist[];
 
   //selectedChecklistId: string;
   //selectedChecklistName: string;
@@ -59,6 +64,9 @@ export class ChecklistComponent {
       this.taskToUpdate = new Task();
       this.selectedChecklist = new Checklist();
       this.checklistToUpdate = new Checklist();
+      this.allChecklists = [new Checklist()];
+      this.checklistsToPrint = [new Checklist()];
+
       if(!token){
         this.router.navigate(['/login']);
       }
@@ -407,4 +415,116 @@ export class ChecklistComponent {
         }
       );
   }
+
+  getChecklistByOwnerWithTasks(){
+
+    let token = this.getCookie("checklist_token");
+    if(!token){
+      this.router.navigate(['/login']);
+    }
+
+    this.checklistService.getByOwner(token)
+        .subscribe(
+          res => {
+            this.allChecklists = <Checklist[]>res;
+            console.log('All checklists');
+            console.log(this.allChecklists);
+
+            this.allChecklists.forEach(thisChecklist => {
+
+                this.taskService.getByChecklist(thisChecklist.id, token)
+                .subscribe(
+                  res2=> {
+                    let tasks: Task[] = <Task[]>res2;
+                    thisChecklist.tasks = tasks;
+                  },
+                  error2 => {
+
+                  }
+                );
+
+            });
+
+            let disposable = this.dialogService.addDialog(PrintChecklistsDialogComponent, {
+              title:'Print checklists', 
+              message:'',
+              checklists: this.allChecklists})
+              .subscribe((result)=>{
+                  if(result){
+                    
+                    let checklistsToPrint = result.checklistsToPrint;
+
+                    this.checklistsToPrint = [new Checklist()];
+                    let i: number;
+                    for(i=0; i<checklistsToPrint.length; i++){ 
+                      this.checklistsToPrint.push(checklistsToPrint[i]);
+                    }
+                    
+                    // this.checklistsToPrint = result.checklistsToPrint;
+                    // console.log('Checklists to print: ');
+                    // console.log(this.checklistsToPrint);
+
+                    //TODO: check how to wait until model-view binding is done and remove next lines
+                    // var start = new Date().getTime();
+                    // var end = start;
+                    // while(end < start + 1000) {
+                    //   end = new Date().getTime();
+                    // }
+                    
+                    // this.printChecklists();
+                    this.print(checklistsToPrint);
+                  }
+              });
+          },
+          error => {
+            return undefined;
+          }
+        );
+  }
+
+ print(checklists: Checklist[]): void {
+    let printContents: any;
+
+    let i: number;
+    for(i=0; i<checklists.length; i++){
+      if(checklists[i].print){
+        
+        let tasks: string = '';
+        let j: number;
+        for(j=0; j<checklists[i].tasks.length; j++){
+          tasks += '<span>' + checklists[i].tasks[j].name + '</span><br\>'
+        }
+
+        printContents += `
+          <ul>
+            <li>
+              <div>
+                <h1>` + checklists[i].name +`</h1>` + tasks +
+              `</div>
+            </li>
+          </ul>
+        `
+      }
+    }
+
+    let popupWin: any;
+    // printContents = document.getElementById('print-section').innerHTML;
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(`
+      <html>
+        <head>
+          <title>Checklist report</title>
+          <style>
+          //........Customized style.......
+          </style>
+        </head>
+    <body onload="window.print();window.close()">
+      ${printContents}  
+    </body>
+      </html>`
+    );
+    popupWin.document.close();
+  }
+
 }
